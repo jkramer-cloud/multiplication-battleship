@@ -38,40 +38,446 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
 @media(max-width:1250px){.number-cloud{opacity:.065}.side-vessel{opacity:.09}}
 @media(max-width:850px){.side-vessel{display:none}.number-cloud{width:12%;opacity:.05;letter-spacing:9px}.cell.ship{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.mode-info{transition:none}}
+
+/* Solo-opponent setup and optional time pressure */
+.game-select{width:100%;background:#071c31;color:white;padding:11px;border:1px solid #b99a46;border-radius:9px;font:inherit;margin-top:4px}
+.game-select:disabled{opacity:.6}
+.timer-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-weight:750;background:#102942;border:1px solid #7a97b1;border-radius:10px;padding:12px}
+.timer-toggle input{width:21px;height:21px;accent-color:#f2c444}
+.timer-box{background:#0b2135;border:1px solid #e0b846;border-radius:12px;padding:12px;margin:12px 0}
+.timer-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#ffe49d;margin-bottom:9px}
+.timer-heading span{font-weight:900;font-size:22px;font-variant-numeric:tabular-nums}
+.timer-track{width:100%;height:11px;border-radius:99px;background:#34495b;overflow:hidden;margin:7px 0 10px}
+.timer-bar{height:100%;width:100%;background:linear-gradient(90deg,#45cca4,#f3ce53);border-radius:99px;transition:width .1s linear}
+.timer-box.urgent{border-color:#ff8585;background:#321d29}
+.timer-box.urgent .timer-heading{color:#ff9b9b}
+.timer-box.urgent .timer-bar{background:#ff7777}
+.loader{margin:20px auto;width:82px;height:8px;border-radius:99px;background:linear-gradient(90deg,#143e62,#ffd46e,#143e62);animation:float .8s ease-in-out infinite}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){.loader{animation:none}.timer-bar{transition:none}}
 </style>
 </head>
-<body><div class="ocean-art" aria-hidden="true"><div class="number-cloud left">2 4 6 8 12 × 7 9 5 3 11 10 12 4 8 6 2 × 9 7 5</div><div class="number-cloud right">12 × 12 144 8 9 72 11 6 66 5 7 35 10 10 100</div><svg class="side-vessel vessel-left" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M95 25L120 5L146 25L160 72V310L140 367L101 367L80 310V72Z" fill="#b0c8d6" stroke="#f2c444" stroke-width="5"/><path d="M104 73H141V310H104Z" fill="#315673"/><rect x="96" y="140" width="54" height="110" rx="12" fill="#e3b946"/><path d="M110 95H136V128H110Z" fill="#091d33"/><path d="M96 265H149M80 320H159" stroke="white" stroke-width="5"/><path d="M92 30L123 14L153 30" stroke="#fff" stroke-width="5"/></svg><svg class="side-vessel vessel-right" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M105 45Q141 -5 174 45L174 355Q142 414 105 355Z" fill="#4b8da7" stroke="#e4c15b" stroke-width="5"/><path d="M116 98V310M162 98V310" stroke="#e0eef5" stroke-width="4"/><rect x="117" y="161" width="45" height="115" rx="21" fill="#12344f"/><rect x="128" y="134" width="24" height="52" rx="10" fill="#dfba55"/><path d="M141 134V85M141 85H173" stroke="white" stroke-width="6"/><circle cx="140" cy="222" r="9" fill="#d3effa"/></svg></div><div class="shell"><header class="top"><div><div class="sub">TWO PLAYERS · ONE COMPUTER</div><div class="brand">⚓ MULTIPLICATION BATTLESHIP <span class="school">NACHES EDITION</span></div></div><div class="top-actions"><div class="chip" id="phaseChip">PASS & PLAY</div><button type="button" class="btn secondary endgame" id="endGame" hidden>End game</button></div></header><main id="app"></main><footer class="footer">No accounts · No internet required · Nothing is saved when this page closes · Honor system: look away during handoffs</footer></div>
+<body><div class="ocean-art" aria-hidden="true"><div class="number-cloud left">2 4 6 8 12 × 7 9 5 3 11 10 12 4 8 6 2 × 9 7 5</div><div class="number-cloud right">12 × 12 144 8 9 72 11 6 66 5 7 35 10 10 100</div><svg class="side-vessel vessel-left" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M95 25L120 5L146 25L160 72V310L140 367L101 367L80 310V72Z" fill="#b0c8d6" stroke="#f2c444" stroke-width="5"/><path d="M104 73H141V310H104Z" fill="#315673"/><rect x="96" y="140" width="54" height="110" rx="12" fill="#e3b946"/><path d="M110 95H136V128H110Z" fill="#091d33"/><path d="M96 265H149M80 320H159" stroke="white" stroke-width="5"/><path d="M92 30L123 14L153 30" stroke="#fff" stroke-width="5"/></svg><svg class="side-vessel vessel-right" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M105 45Q141 -5 174 45L174 355Q142 414 105 355Z" fill="#4b8da7" stroke="#e4c15b" stroke-width="5"/><path d="M116 98V310M162 98V310" stroke="#e0eef5" stroke-width="4"/><rect x="117" y="161" width="45" height="115" rx="21" fill="#12344f"/><rect x="128" y="134" width="24" height="52" rx="10" fill="#dfba55"/><path d="M141 134V85M141 85H173" stroke="white" stroke-width="6"/><circle cx="140" cy="222" r="9" fill="#d3effa"/></svg></div><div class="shell"><header class="top"><div><div class="sub">SOLO OR TWO PLAYERS · ONE COMPUTER</div><div class="brand">⚓ MULTIPLICATION BATTLESHIP <span class="school">NACHES EDITION</span></div></div><div class="top-actions"><div class="chip" id="phaseChip">PASS & PLAY</div><button type="button" class="btn secondary endgame" id="endGame" hidden>End game</button></div></header><main id="app"></main><footer class="footer">No accounts · No internet required · Nothing is saved when this page closes · Private handoffs in two-player mode</footer></div>
 <script>
-(()=>{'use strict';
-const app=document.getElementById('app'),chip=document.getElementById('phaseChip');
-let boardSize=12;
-const fleet=[{name:'Carrier',size:5,kind:'carrier',icon:'▰'},{name:'Battleship',size:4,kind:'battleship',icon:'✦'},{name:'Cruiser',size:3,kind:'cruiser',icon:'◆'},{name:'Submarine',size:3,kind:'submarine',icon:'◉'},{name:'Patrol boat',size:2,kind:'patrol',icon:'➤'}];
-let players=[],state='welcome',who=0,placement=0,vertical=false,selected=null,message='',nextStep='',lastShot=null,wrongAttempts=0,misfires=[0,0],difficulty="standard",firingShip=0;
-function mathHint(x,y){return y>1?`Hint: ${x} × ${y} = ${x} × ${y-1} + ${x}.`:`Hint: any number multiplied by 1 stays the same.`;}
-function person(name){return {name,ships:[],attacks:{},ready:false};}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function setState(s){state=s;render()}
-function boardCells(ship){return ship.cells}
-function occupied(p){return new Set(p.ships.flatMap(boardCells))}
-function coord(x,y){return y*boardSize+x}
-function getShip(p,i){return p.ships.find(s=>s.cells.includes(i))}
-function canPlace(p,x,y,size,v){let cells=[];for(let k=0;k<size;k++){let xx=x+(v?0:k),yy=y+(v?k:0);if(xx>=boardSize||yy>=boardSize||occupied(p).has(coord(xx,yy)))return null;cells.push(coord(xx,yy))}return cells}
-function placeAt(x,y){const p=players[who];if(placement>=fleet.length)return;const cells=canPlace(p,x,y,fleet[placement].size,vertical);if(!cells){message='That ship does not fit or overlaps another ship. Try a different position.';render();return;}p.ships.push({...fleet[placement],cells});placement++;message='';render()}
-function randomFleet(p){p.ships=[];for(const ship of fleet){let ok=null,tries=0,v=false;while(!ok&&tries++<300){v=Math.random()<.5;ok=canPlace(p,Math.floor(Math.random()*boardSize),Math.floor(Math.random()*boardSize),ship.size,v)}if(!ok){p.ships=[];return randomFleet(p)}p.ships.push({...ship,cells:ok})}placement=fleet.length;message='Random fleet placed. You can reset and arrange your own ships.';render()}
-function shipSunk(p,s){const defenderIndex=players.indexOf(p);if(defenderIndex<0||players.length!==2)return false;const incomingShots=players[1-defenderIndex].attacks;return s.cells.every(i=>incomingShots[i]==='hit')}
-function allSunk(p){return p.ships.every(s=>shipSunk(p,s))}
-function afloatIndices(p){return p.ships.map((s,i)=>shipSunk(p,s)?-1:i).filter(i=>i>=0)}
-function rowBoard(p,type){let html='<div class="board" style="--n:'+boardSize+'" role="grid" aria-label="'+(type==='place'?'Your ships':type==='attack'?'Opponent attack map':'Your fleet')+'"><div></div>';for(let x=1;x<=boardSize;x++)html+='<div class="coord">'+x+'</div>';for(let y=0;y<boardSize;y++){html+='<div class="coord">'+(y+1)+'</div>';for(let x=0;x<boardSize;x++){let i=coord(x,y),shot=type==='attack'?players[who].attacks[i]:type==='fleet'?players[1-who].attacks[i]:null,isShip=getShip(p,i),css='cell',txt='',action='';if(type!=='attack'&&isShip){const pos=isShip.cells.indexOf(i),v=isShip.cells.length>1&&(isShip.cells[1]-isShip.cells[0]===boardSize);css+=' ship ship-'+isShip.kind+' '+(v?'ship-v':'ship-h')+' '+(pos===0?'ship-bow':pos===isShip.cells.length-1?'ship-stern':'ship-mid');if(!shot)txt=pos===Math.floor(isShip.cells.length/2)?isShip.icon:'';}if(shot){css+=' '+shot;txt=shot==='hit'?'✕':'•';}if(type==='place'&&placement<fleet.length){css+=' interactive';action='data-place="'+x+','+y+'"'}if(type==='attack'&&!shot){css+=' interactive'+(selected===i?' selected':'');action='data-select="'+x+','+y+'"'}html+='<button type="button" class="'+css+'" '+action+' aria-label="Column '+(x+1)+', row '+(y+1)+(shot?', '+shot:'')+(type!=='attack'&&isShip?', '+isShip.name:'')+'">'+txt+'</button>';} }return html+'</div>';}
-const modeRules={training:{title:'TRAINING · Learn as you play',detail:'Unlimited attempts. Every incorrect answer gives a hint, and you can keep trying until you get it right. No turn is lost.'},standard:{title:'STANDARD · One chance to recover',detail:'Your first incorrect answer gives a helpful hint and one retry. A second incorrect answer causes a misfire and ends your turn. The target remains hidden.'},expert:{title:'EXPERT · Every answer counts',detail:'One incorrect answer causes an immediate misfire and ends your turn. The shot never reaches the enemy, and its location remains available.'},nightmare:{title:'NIGHTMARE · Friendly-fire danger',detail:'Choose one of your surviving ships to fire. One incorrect answer instantly sinks your chosen ship and ends your turn. Lose your final ship and your opponent wins!'}};
-function updateDifficultyDescription(){let el=document.getElementById('modeInfo');if(el){let r=modeRules[difficulty];el.innerHTML='<strong>'+r.title+'</strong><span>'+r.detail+'</span>';el.className='mode-info mode-'+difficulty;}}
-function viewIntro(){chip.textContent='READY TO PLAY';app.innerHTML=`<section class="panel center"><div class="bigicon flagship">⚓</div><h1>Sink ships. Practice multiplication.</h1><p>Two students share one computer. Set up ships privately, then take turns calling coordinates and solving multiplication equations to launch attacks. <strong>Choose your difficulty: Training, Standard, Expert, or Nightmare.</strong></p><div class="settings"><div class="settingslabel">CHOOSE YOUR OCEAN SIZE</div><div class="sizes" role="group" aria-label="Board size"><button type="button" class="sizebtn" data-size="8">8 × 8<small>Easy</small></button><button type="button" class="sizebtn" data-size="10">10 × 10<small>Classic</small></button><button type="button" class="sizebtn chosen" data-size="12">12 × 12<small>Recommended</small></button><button type="button" class="sizebtn" data-size="15">15 × 15<small>Challenge</small></button></div><div class="mini">Rows and columns go from 1 up to your selected board size. For 12 × 12, students practice up to 12 × 12 = 144.</div></div><div class="settings"><div class="settingslabel">CHOOSE YOUR DIFFICULTY</div><div class="sizes difficulty-options" role="group" aria-label="Math difficulty"><button class="sizebtn" data-difficulty="training">Training<small>Keep retrying with hints</small></button><button class="sizebtn chosen" data-difficulty="standard">Standard<small>2 wrong = lost turn</small></button><button class="sizebtn" data-difficulty="expert">Expert<small>1 wrong = lost turn</small></button><button class="sizebtn" data-difficulty="nightmare">Nightmare<small>1 wrong = your firing ship sinks!</small></button></div><div class="mode-info" id="modeInfo" aria-live="polite"></div></div><div class="namefields"><label class="field">PLAYER 1 NAME<input id="name1" maxlength="24" value="Player 1"></label><label class="field">PLAYER 2 NAME<input id="name2" maxlength="24" value="Player 2"></label></div><div class="stat" style="text-align:left"><strong>Privacy rule</strong><span class="mini">The other player turns away during ship placement and each turn. A full-screen handoff pauses the game until the next player says they are ready.</span></div><div class="btnrow"><button class="btn" id="start">Start game →</button></div></section>`;app.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{boardSize=Number(b.dataset.size);app.querySelectorAll('[data-size]').forEach(v=>v.classList.toggle('chosen',v===b))});updateDifficultyDescription();app.querySelectorAll('[data-difficulty]').forEach(b=>b.onclick=()=>{difficulty=b.dataset.difficulty;app.querySelectorAll('[data-difficulty]').forEach(v=>v.classList.toggle('chosen',v===b));updateDifficultyDescription()});document.getElementById('start').onclick=()=>{players=[person(document.getElementById('name1').value.trim()||'Player 1'),person(document.getElementById('name2').value.trim()||'Player 2')];who=0;placement=0;vertical=false;wrongAttempts=0;misfires=[0,0];firingShip=0;setState('handoffSetup')};}
-function handoff(){chip.textContent='PRIVACY SCREEN';let p=players[who],setup=state==='handoffSetup';app.innerHTML=`<section class="panel center"><div class="bigicon">🔒</div><div class="sub">SCREEN COVERED · PASS THE COMPUTER</div><h1>${esc(p.name)}, you're up!</h1><p>${setup?'Your opponent should look away while you position your ships.':'Your opponent should look away before you reveal your private fleet and firing board.'}</p><div class="status"><strong>Honor system:</strong> hand the computer to ${esc(p.name)}. Only ${esc(p.name)} should press the button below.</div><div class="btnrow"><button class="btn" id="reveal">${setup?'I’m ready to place my ships':'I’m ready for my turn'} →</button></div></section>`;document.getElementById('reveal').onclick=()=>setState(setup?'setup':'turn');}
-function viewSetup(){let p=players[who];chip.textContent='SHIP PLACEMENT';app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">${esc(p.name)}'s secret fleet</h2><div class="boardwrap">${rowBoard(p,'place')}</div></section><aside class="panel side"><div class="sub">PRIVATE SETUP</div><h2>Position your ships</h2><div class="mini">${boardSize} × ${boardSize}</div><p>Click a starting square to place each ship. Ships cannot overlap or extend outside the board.</p><div class="ships">${fleet.map((s,i)=>`<div class="shiptag shiptag-${s.kind} ${i<placement?'done':i===placement?'active':''}"><span class="ship-symbol">${s.icon}</span>${esc(s.name)} · ${s.size}</div>`).join('')}</div><div class="status">${placement===fleet.length?'All five ships are ready.':'Next: '+fleet[placement].name+' ('+fleet[placement].size+' squares)'}</div><div class="btnrow" style="justify-content:flex-start"><button class="btn secondary" id="rotate">↻ ${vertical?'Vertical':'Horizontal'}</button><button class="btn secondary" id="random">Random ships</button><button class="btn ghost" id="reset">Reset board</button></div>${message?`<p class="muted" role="status">${esc(message)}</p>`:''}<div class="btnrow" style="justify-content:flex-start"><button class="btn" id="confirm" ${placement<fleet.length?'disabled':''}>Lock in my ships →</button></div></aside></div>`;app.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{const [x,y]=b.dataset.place.split(',').map(Number);placeAt(x,y)});document.getElementById('rotate').onclick=()=>{vertical=!vertical;render()};document.getElementById('random').onclick=()=>randomFleet(p);document.getElementById('reset').onclick=()=>{p.ships=[];placement=0;message='';render()};document.getElementById('confirm').onclick=()=>{p.ready=true;message='';if(who===0){who=1;placement=0;vertical=false;setState('handoffSetup')}else{who=0;firingShip=0;setState('handoffTurn')}};}
-function viewTurn(){let p=players[who],op=players[1-who],shots=Object.values(p.attacks),hits=shots.filter(s=>s==='hit').length,misses=shots.filter(s=>s==='miss').length;chip.textContent=p.name.toUpperCase()+'’S TURN';if(difficulty==='nightmare'&&!afloatIndices(p).includes(firingShip))firingShip=afloatIndices(p)[0];app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">Target grid · ${esc(op.name)}'s waters (${boardSize} × ${boardSize})</h2><div class="boardwrap">${rowBoard(p,'attack')}</div><div class="mini" style="margin-top:12px">Select an untried square. Across is the first number; down is the second.</div><details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700;color:var(--gold)">Show my own fleet and damage</summary><div class="boardwrap" style="margin-top:12px">${rowBoard(p,'fleet')}</div></details></section><aside class="panel side"><div class="sub">CURRENT CAPTAIN</div><h2>${esc(p.name)}</h2><div class="shots"><div class="stat"><strong>${hits}</strong><span class="mini">Successful hits</span></div><div class="stat"><strong>${misses}</strong><span class="mini">Misses</span></div></div><div class="stat"><strong>Fleet status</strong><span class="mini">Your ships left afloat: ${p.ships.filter(s=>!s.cells.every(i=>op.attacks[i]==='hit')).length} / 5</span></div><p>Choose where to bomb, then calculate the multiplication answer to fire.</p>${difficulty==='nightmare'?`<div class="stat"><strong>YOUR FIRING SHIP</strong><p class="mini">A wrong answer instantly sinks the selected ship. Select a ship before firing.</p><select id="firingShip" aria-label="Choose firing ship" style="width:100%;padding:12px;background:#091c30;color:white;border:1px solid #ffd46e;border-radius:9px">${p.ships.map((s,i)=>`<option value="${i}" ${shipSunk(p,s)?'disabled':''} ${i===firingShip?'selected':''}>${s.icon} ${esc(s.name)} (${s.size})${shipSunk(p,s)?' — SUNK':''}</option>`).join('')}</select></div>`:''}${selected===null?'<div class="status">Select a square to prepare an attack.</div>':`<div class="status">Target: <strong>${selected%boardSize+1} across × ${Math.floor(selected/boardSize)+1} down</strong></div><div class="equation">${selected%boardSize+1} × ${Math.floor(selected/boardSize)+1} = ?</div><form id="fireForm"><label class="field" style="margin-bottom:10px">YOUR ANSWER<div class="answerrow"><input id="answer" type="number" min="0" max="225" inputmode="numeric" required autocomplete="off"><button class="btn" type="submit">Fire! ⚡</button></div></label></form>`}${message?`<div class="status warn" role="status">${esc(message)}</div>`:''}${wrongAttempts>0?'<div class="mini">Target locked for retry. '+(difficulty==='training'?'Keep practicing.':'One more mistake ends your turn.')+'</div>':''}<div class="stat"><strong>Misfires: ${misfires[who]}</strong><span class="mini">${difficulty==='training'?'Keep trying; hints are provided.':difficulty==='standard'?'Two incorrect answers cost a turn.':difficulty==='expert'?'One incorrect answer costs a turn.':'One incorrect answer sinks your firing ship.'}</span></div><div class="stat"><strong>Shot markers</strong><span class="mini">✕ = hit &nbsp;&nbsp; • = miss &nbsp;&nbsp; dark square = not yet fired</span></div></aside></div>`;const firingSelect=document.getElementById('firingShip');if(firingSelect)firingSelect.onchange=()=>{firingShip=Number(firingSelect.value)};app.querySelectorAll('[data-select]').forEach(b=>b.onclick=()=>{const [x,y]=b.dataset.select.split(',').map(Number);if(wrongAttempts>0)return;selected=coord(x,y);wrongAttempts=0;message='';render();document.getElementById('answer')?.focus()});let form=document.getElementById('fireForm');if(form)form.onsubmit=e=>{e.preventDefault();const a=Number(document.getElementById('answer').value),x=selected%boardSize+1,y=Math.floor(selected/boardSize)+1,correct=x*y;if(a!==correct){wrongAttempts++;if(difficulty==='training'||(difficulty==='standard'&&wrongAttempts===1)){message=(difficulty==='training'?'TARGETING ERROR — Try again! ':'TARGETING ERROR — One retry! ')+mathHint(x,y);render();document.getElementById('answer')?.focus();return}misfires[who]++;lastShot={target:selected,correct,misfire:true,nightmare:difficulty==='nightmare',ship:null,opponentWins:false};if(difficulty==='nightmare'){const ship=p.ships[firingShip];if(!ship||shipSunk(p,ship)){message='Choose a ship still afloat.';wrongAttempts=0;render();return}ship.cells.forEach(i=>{op.attacks[i]='hit'});lastShot.ship=ship.name;lastShot.opponentWins=allSunk(p)}wrongAttempts=0;selected=null;message='';setState('misfire');return}const hit=!!getShip(op,selected);p.attacks[selected]=hit?'hit':'miss';lastShot={target:selected,hit,sunk:hit?getShip(op,selected).cells.every(i=>p.attacks[i]==='hit'):false,ship:hit?getShip(op,selected).name:null};selected=null;wrongAttempts=0;message='';setState('result')};}
-function viewMisfire(){const p=players[who],x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1,nightmare=lastShot.nightmare,loss=lastShot.opponentWins;chip.textContent=loss?'GAME OVER':'TARGETING FAILURE';app.innerHTML=`<section class="panel center"><div class="bigicon resulticon explosion">${nightmare?'💥':'⚠️'}</div><div class="sub">${nightmare?'NIGHTMARE · INCORRECT ANSWER':difficulty==='expert'?'INCORRECT ANSWER':'TWO INCORRECT ANSWERS'}</div><h1 style="color:var(--gold)">${loss?esc(players[1-who].name)+' wins!':nightmare?'FRIENDLY FIRE! '+esc(lastShot.ship)+' SUNK!':'MISFIRE! TURN LOST'}</h1><p>That target was ${x} × ${y} = <strong style="color:var(--gold)">${x*y}</strong>.</p><div class="status">${nightmare?`Your ${esc(lastShot.ship)} was lost to a misfire. The enemy target was not revealed. ${loss?'Your entire fleet has been sunk.':'Your turn is over.'}`:'Your shot was canceled, and the target remains available next turn.'} ${esc(mathHint(x,y))}</div><div class="btnrow"><button class="btn" id="next">${loss?'Play another game':'End turn · Cover the screen →'}</button></div></section>`;document.getElementById('next').onclick=()=>{if(loss){resetGame();return}who=1-who;selected=null;wrongAttempts=0;setState('handoffTurn')};}
-function viewResult(){const p=players[who],win=allSunk(players[1-who]),x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;chip.textContent=win?'GAME OVER':'SHOT RESULT';app.innerHTML=`<section class="panel center"><div class="bigicon resulticon ${win?'victory':lastShot.hit?'explosion':'splash'}">${win?'🏆':lastShot.hit?'💥':'🌊'}</div><div class="sub">${esc(p.name)} fired at ${x} × ${y} = ${x*y}</div><div class="burst" aria-hidden="true">${Array.from({length:16},(_,i)=>`<i style="--a:${i*22.5}deg;--d:${65+i%4*14}px"></i>`).join('')}</div><h1>${win?esc(p.name)+' wins!':lastShot.sunk?'Ship sunk!':lastShot.hit?'Direct hit!':'Miss!'}</h1><p>${win?'You sunk every enemy ship.':lastShot.sunk?'You sank the '+esc(lastShot.ship)+'.':lastShot.hit?'You hit an enemy ship.':'No ship at that location.'}</p><div class="btnrow">${win?'<button class="btn" id="again">Play another game</button>': '<button class="btn" id="next">End turn · Cover the screen →</button>'}</div></section>`;if(win)document.getElementById('again').onclick=resetGame;else document.getElementById('next').onclick=()=>{who=1-who;selected=null;setState('handoffTurn')};}
-function resetGame(){players=[];who=0;placement=0;selected=null;wrongAttempts=0;misfires=[0,0];firingShip=0;message='';setState('welcome')}
-function render(){const quit=document.getElementById('endGame');quit.hidden=state==='welcome';quit.onclick=()=>{if(confirm('End this match and return to the main menu? All progress will be lost.'))resetGame()};if(state==='welcome')viewIntro();else if(state==='handoffSetup'||state==='handoffTurn')handoff();else if(state==='setup')viewSetup();else if(state==='turn')viewTurn();else if(state==='result')viewResult();else if(state==='misfire')viewMisfire();}
-render();
+(() => {
+  'use strict';
+  const app = document.getElementById('app');
+  const chip = document.getElementById('phaseChip');
+  const sizeLabels = {8:'Easy',10:'Classic',12:'Recommended',15:'Challenge'};
+  const captainNames = {rookie:'Rookie Captain',normal:'Experienced Sailor',hard:'Fleet Commander',nightmare:'Admiral Nightmare'};
+  const accuracy = {rookie:0.75,normal:0.85,hard:0.95,nightmare:0.99};
+  const timeLimits = {training:15,standard:12,expert:9,nightmare:6};
+  const fleet = [
+    {name:'Carrier',size:5,kind:'carrier',icon:'▰'},
+    {name:'Battleship',size:4,kind:'battleship',icon:'✦'},
+    {name:'Cruiser',size:3,kind:'cruiser',icon:'◆'},
+    {name:'Submarine',size:3,kind:'submarine',icon:'◉'},
+    {name:'Patrol boat',size:2,kind:'patrol',icon:'➤'}
+  ];
+  const modeRules={
+    training:{title:'TRAINING · Learn as you play',detail:'Unlimited wrong-answer retries with hints. If Timed Fire is enabled, the clock can still cause a misfire.'},
+    standard:{title:'STANDARD · One chance to recover',detail:'One wrong answer gives a hint and a retry. A second wrong answer, or a timer timeout, costs a turn.'},
+    expert:{title:'EXPERT · Every answer counts',detail:'One wrong answer or a timer timeout cancels the attack and ends your turn.'},
+    nightmare:{title:'NIGHTMARE · Friendly-fire danger',detail:'Choose the ship firing your shot. One wrong answer or a timeout sinks that ship. Losing your last ship ends the game.'}
+  };
+  let boardSize=12, difficulty='standard', gameMode='human', aiLevel='normal', timed=false, timeMultiplier=1;
+  let players=[], who=0, state='welcome', placement=0, vertical=false, selected=null;
+  let message='', wrongAttempts=0, misfires=[0,0], firingShip=0, lastShot=null;
+  let timerHandle=null, shotDeadline=null, aiHandle=null, aiSunkCells=new Set();
+
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function person(name,computer=false){return {name,computer,ships:[],attacks:{},ready:false};}
+  function coord(x,y){return y*boardSize+x;}
+  function getShip(p,i){return p.ships.find(s=>s.cells.includes(i));}
+  function occupied(p){return new Set(p.ships.flatMap(s=>s.cells));}
+  function canPlace(p,x,y,size,v){
+    const taken=occupied(p), cells=[];
+    for(let k=0;k<size;k++){
+      const xx=x+(v?0:k),yy=y+(v?k:0);
+      if(xx>=boardSize||yy>=boardSize||taken.has(coord(xx,yy)))return null;
+      cells.push(coord(xx,yy));
+    }
+    return cells;
+  }
+  function fillRandomFleet(p){
+    for(let attempt=0;attempt<500;attempt++){
+      p.ships=[];let good=true;
+      for(const ship of fleet){
+        let cells=null;
+        for(let tries=0;tries<400&&!cells;tries++){
+          cells=canPlace(p,Math.floor(Math.random()*boardSize),Math.floor(Math.random()*boardSize),ship.size,Math.random()<.5);
+        }
+        if(!cells){good=false;break;}
+        p.ships.push({...ship,cells});
+      }
+      if(good)return;
+    }
+    throw new Error('Unable to generate a fleet');
+  }
+  function randomFleet(p){fillRandomFleet(p);placement=fleet.length;message='Random fleet placed. You can reset and arrange your own ships.';render();}
+  function placeAt(x,y){
+    const p=players[who];if(placement>=fleet.length)return;
+    const cells=canPlace(p,x,y,fleet[placement].size,vertical);
+    if(!cells){message='That ship does not fit or overlaps another ship. Try another square.';render();return;}
+    p.ships.push({...fleet[placement],cells});placement++;message='';render();
+  }
+  function shipSunk(p,s){
+    const defender=players.indexOf(p);
+    return defender>=0&&players[1-defender]&&s.cells.every(i=>players[1-defender].attacks[i]==='hit');
+  }
+  function allSunk(p){return p.ships.length>0&&p.ships.every(s=>shipSunk(p,s));}
+  function afloatIndices(p){return p.ships.map((s,i)=>shipSunk(p,s)?-1:i).filter(i=>i>=0);}
+  function mathHint(x,y){return y>1?`Hint: ${x} × ${y} = ${x} × ${y-1} + ${x}.`:'Hint: any number multiplied by 1 stays the same.';}
+  function clearClock(){if(timerHandle!==null){clearInterval(timerHandle);timerHandle=null;}shotDeadline=null;}
+  function cancelBackgroundWork(){clearClock();if(aiHandle!==null){clearTimeout(aiHandle);aiHandle=null;}}
+  function switchState(s){
+    if(s!=='turn')clearClock();
+    if(s!=='aiThinking'&&aiHandle!==null){clearTimeout(aiHandle);aiHandle=null;}
+    state=s;render();
+  }
+  function board(p,type){
+    let out=`<div class="board" style="--n:${boardSize}" role="grid" aria-label="${type==='place'?'Your ships':type==='attack'?'Opponent attack map':'Your fleet'}"><div></div>`;
+    for(let x=1;x<=boardSize;x++)out+=`<div class="coord">${x}</div>`;
+    for(let y=0;y<boardSize;y++){
+      out+=`<div class="coord">${y+1}</div>`;
+      for(let x=0;x<boardSize;x++){
+        const i=coord(x,y),s=getShip(p,i);
+        const shot=type==='attack'?players[who].attacks[i]:type==='fleet'?players[1-who].attacks[i]:null;
+        let css='cell', txt='', action='';
+        if(type!=='attack'&&s){
+          const pos=s.cells.indexOf(i),v=s.cells.length>1&&(s.cells[1]-s.cells[0]===boardSize);
+          css+=` ship ship-${s.kind} ${v?'ship-v':'ship-h'} ${pos===0?'ship-bow':pos===s.cells.length-1?'ship-stern':'ship-mid'}`;
+          if(!shot)txt=pos===Math.floor(s.cells.length/2)?s.icon:'';
+        }
+        if(shot){css+=' '+shot;txt=shot==='hit'?'✕':'•';}
+        if(type==='place'&&placement<fleet.length){css+=' interactive';action=`data-place="${x},${y}"`;}
+        if(type==='attack'&&!shot){css+=' interactive'+(selected===i?' selected':'');action=`data-select="${x},${y}"`;}
+        out+=`<button type="button" class="${css}" ${action} aria-label="Column ${x+1}, row ${y+1}${shot?', '+shot:''}${type!=='attack'&&s?', '+s.name:''}">${txt}</button>`;
+      }
+    }
+    return out+'</div>';
+  }
+  function viewIntro(){
+    chip.textContent='READY TO PLAY';
+    const sizeBtns=[8,10,12,15].map(n=>`<button type="button" class="sizebtn ${boardSize===n?'chosen':''}" data-size="${n}">${n} × ${n}<small>${sizeLabels[n]}</small></button>`).join('');
+    const diffBtns=['training','standard','expert','nightmare'].map(d=>{
+      const snippets={training:'Unlimited math retries',standard:'2 wrong = lost turn',expert:'1 wrong = lost turn',nightmare:'Misfire sinks your ship'};
+      return `<button type="button" class="sizebtn ${difficulty===d?'chosen':''}" data-difficulty="${d}">${d[0].toUpperCase()+d.slice(1)}<small>${snippets[d]}</small></button>`;
+    }).join('');
+    app.innerHTML=`<section class="panel center"><div class="bigicon flagship">⚓</div><h1>Sink ships. Practice multiplication.</h1><p>Play with a classmate or challenge a computer captain. Select coordinates, solve multiplication problems, and sink the opposing fleet.</p>
+      <div class="settings"><div class="settingslabel">CHOOSE YOUR OPPONENT</div><div class="sizes difficulty-options">
+        <button class="sizebtn ${gameMode==='human'?'chosen':''}" data-mode="human">Two Players<small>Share one Chromebook</small></button>
+        <button class="sizebtn ${gameMode==='computer'?'chosen':''}" data-mode="computer">Vs. Computer<small>Play on your own</small></button></div>
+        <div id="aiControls" ${gameMode==='computer'?'':'hidden'}><label class="field" style="margin-top:12px">COMPUTER CAPTAIN
+        <select id="aiLevel" class="game-select">${Object.entries(captainNames).map(([k,v])=>`<option value="${k}" ${aiLevel===k?'selected':''}>${v} — ${k==='rookie'?'Easy':k==='normal'?'Normal':k==='hard'?'Hard':'Extreme'}</option>`).join('')}</select></label>
+        <p class="mini">The computer searches using only its own shots, never secretly sees your ships, and can make math mistakes.</p></div>
+      </div>
+      <div class="settings"><div class="settingslabel">CHOOSE YOUR OCEAN SIZE</div><div class="sizes">${sizeBtns}</div><div class="mini">For example, 12 × 12 practices multiplication facts through 144.</div></div>
+      <div class="settings"><div class="settingslabel">CHOOSE YOUR MATH DIFFICULTY</div><div class="sizes difficulty-options">${diffBtns}</div><div class="mode-info" id="modeInfo" aria-live="polite"></div></div>
+      <div class="settings"><div class="settingslabel">OPTIONAL TIMED FIRE</div>
+        <label class="timer-toggle"><input id="timed" type="checkbox" ${timed?'checked':''}> Enable countdown during multiplication answers</label>
+        <div id="timerSettings" ${timed?'':'hidden'}><div class="mini" id="timePreview"></div><label class="field" style="margin-top:11px">TIME ACCOMMODATION
+          <select id="timeMultiplier" class="game-select"><option value="1" ${timeMultiplier===1?'selected':''}>Regular time</option><option value="1.5" ${timeMultiplier===1.5?'selected':''}>50% extra time</option><option value="2" ${timeMultiplier===2?'selected':''}>Double time</option><option value="3" ${timeMultiplier===3?'selected':''}>Triple time</option></select></label>
+          <p class="mini">The clock starts after selecting a target, not during handoffs. Time running out causes an immediate misfire; Nightmare also sinks the firing ship.</p></div>
+      </div>
+      <div class="namefields"><label class="field">PLAYER 1 NAME<input id="name1" maxlength="24" value="Player 1"></label>
+      <label class="field" id="name2Wrap" ${gameMode==='computer'?'hidden':''}>PLAYER 2 NAME<input id="name2" maxlength="24" value="Player 2"></label></div>
+      <div class="stat" style="text-align:left"><strong id="privacyTitle">${gameMode==='computer'?'Single-player game':'Privacy rule'}</strong><span class="mini" id="privacyNote">${gameMode==='computer'?'The computer places its ships randomly. You see only your own fleet and your attack map.':'Another student turns away during ship placement and each turn. A privacy handoff covers the screen.'}</span></div>
+      <div class="btnrow"><button class="btn" id="start">Start game →</button></div></section>`;
+    function updateInfo(){
+      const r=modeRules[difficulty],el=document.getElementById('modeInfo');
+      el.innerHTML=`<strong>${r.title}</strong><span>${r.detail}</span>`;el.className='mode-info mode-'+difficulty;
+      document.getElementById('timePreview').textContent=`Time limit: ${Math.round(timeLimits[difficulty]*timeMultiplier)} seconds per target (${difficulty}). Incorrect-answer hints do not restart the clock.`;
+    }
+    app.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{boardSize=Number(b.dataset.size);app.querySelectorAll('[data-size]').forEach(v=>v.classList.toggle('chosen',v===b));});
+    app.querySelectorAll('[data-difficulty]').forEach(b=>b.onclick=()=>{difficulty=b.dataset.difficulty;app.querySelectorAll('[data-difficulty]').forEach(v=>v.classList.toggle('chosen',v===b));updateInfo();});
+    app.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
+      gameMode=b.dataset.mode;app.querySelectorAll('[data-mode]').forEach(v=>v.classList.toggle('chosen',v===b));
+      document.getElementById('aiControls').hidden=gameMode!=='computer';
+      document.getElementById('name2Wrap').hidden=gameMode==='computer';
+      document.getElementById('privacyTitle').textContent=gameMode==='computer'?'Single-player game':'Privacy rule';
+      document.getElementById('privacyNote').textContent=gameMode==='computer'?'The computer places its ships randomly. You see only your own fleet and your attack map.':'Another student turns away during ship placement and each turn. A privacy handoff covers the screen.';
+    });
+    document.getElementById('timed').onchange=e=>{timed=e.target.checked;document.getElementById('timerSettings').hidden=!timed;};
+    document.getElementById('timeMultiplier').onchange=e=>{timeMultiplier=Number(e.target.value);updateInfo();};
+    document.getElementById('aiLevel').onchange=e=>{aiLevel=e.target.value;};
+    updateInfo();
+    document.getElementById('start').onclick=()=>{
+      const name1=document.getElementById('name1').value.trim()||'Player 1';
+      const name2=gameMode==='computer'?captainNames[aiLevel]:(document.getElementById('name2').value.trim()||'Player 2');
+      players=[person(name1),person(name2,gameMode==='computer')];
+      who=0;placement=0;vertical=false;selected=null;wrongAttempts=0;misfires=[0,0];firingShip=0;message='';aiSunkCells=new Set();
+      if(gameMode==='computer'){fillRandomFleet(players[1]);players[1].ready=true;switchState('setup');}
+      else switchState('handoffSetup');
+    };
+  }
+  function viewHandoff(){
+    chip.textContent='PRIVACY SCREEN';const p=players[who],setup=state==='handoffSetup';
+    app.innerHTML=`<section class="panel center"><div class="bigicon">🔒</div><div class="sub">SCREEN COVERED · PASS THE COMPUTER</div><h1>${esc(p.name)}, you're up!</h1>
+      <p>${setup?'Your opponent should look away while you position your ships.':'Your opponent should look away before you reveal your private fleet and firing board.'}</p>
+      <div class="status"><strong>Honor system:</strong> hand the computer to ${esc(p.name)}. Only ${esc(p.name)} should press the button below.</div>
+      <div class="btnrow"><button class="btn" id="reveal">${setup?'I’m ready to place my ships':'I’m ready for my turn'} →</button></div></section>`;
+    document.getElementById('reveal').onclick=()=>switchState(setup?'setup':'turn');
+  }
+  function viewSetup(){
+    const p=players[who];chip.textContent='SHIP PLACEMENT';
+    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">${esc(p.name)}'s secret fleet</h2><div class="boardwrap">${board(p,'place')}</div></section>
+      <aside class="panel side"><div class="sub">PRIVATE SETUP</div><h2>Position your ships</h2><div class="mini">${boardSize} × ${boardSize}</div>
+      <p>Click a starting square to place each ship. Ships cannot overlap or extend outside the board.</p>
+      <div class="ships">${fleet.map((s,i)=>`<div class="shiptag shiptag-${s.kind} ${i<placement?'done':i===placement?'active':''}"><span class="ship-symbol">${s.icon}</span>${esc(s.name)} · ${s.size}</div>`).join('')}</div>
+      <div class="status">${placement===fleet.length?'All ships are ready.':'Next: '+fleet[placement].name+' ('+fleet[placement].size+' squares)'}</div>
+      <div class="btnrow" style="justify-content:flex-start"><button class="btn secondary" id="rotate">↻ ${vertical?'Vertical':'Horizontal'}</button><button class="btn secondary" id="random">Random ships</button><button class="btn ghost" id="reset">Reset board</button></div>
+      ${message?`<p class="muted" role="status">${esc(message)}</p>`:''}<div class="btnrow" style="justify-content:flex-start"><button class="btn" id="confirm" ${placement<fleet.length?'disabled':''}>Lock in my ships →</button></div></aside></div>`;
+    app.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{const [x,y]=b.dataset.place.split(',').map(Number);placeAt(x,y);});
+    document.getElementById('rotate').onclick=()=>{vertical=!vertical;render();};
+    document.getElementById('random').onclick=()=>randomFleet(p);
+    document.getElementById('reset').onclick=()=>{p.ships=[];placement=0;message='';render();};
+    document.getElementById('confirm').onclick=()=>{
+      p.ready=true;message='';
+      if(gameMode==='computer'){who=0;firingShip=0;switchState('turn');}
+      else if(who===0){who=1;placement=0;vertical=false;switchState('handoffSetup');}
+      else {who=0;firingShip=0;switchState('handoffTurn');}
+    };
+  }
+  function clockSeconds(){return shotDeadline===null?null:Math.max(0,Math.ceil((shotDeadline-performance.now())/1000));}
+  function drawClock(){
+    const text=document.getElementById('timerText'),bar=document.getElementById('timerBar');
+    if(!text||!bar||shotDeadline===null)return;
+    const remaining=clockSeconds(),limit=Math.round(timeLimits[difficulty]*timeMultiplier);
+    text.textContent=`${remaining}s remaining`;
+    bar.style.width=`${Math.max(0,Math.min(100,(shotDeadline-performance.now())/(limit*1000)*100))}%`;
+    document.getElementById('timerBox')?.classList.toggle('urgent',remaining<=Math.min(5,Math.ceil(limit*0.35)));
+    if(remaining===0&&state==='turn'&&selected!==null)handleTimeout();
+  }
+  function beginClock(){
+    if(!timed)return;
+    clearClock();shotDeadline=performance.now()+Math.round(timeLimits[difficulty]*timeMultiplier)*1000;
+    timerHandle=setInterval(drawClock,100);drawClock();
+  }
+  function viewTurn(){
+    const p=players[who],op=players[1-who],shots=Object.values(p.attacks);
+    chip.textContent=p.name.toUpperCase()+'’S TURN';
+    if(difficulty==='nightmare'&&!afloatIndices(p).includes(firingShip))firingShip=afloatIndices(p)[0];
+    const clockHtml=selected!==null&&timed?`<div class="timer-box" id="timerBox"><div class="timer-heading"><strong>⏱ TIMED FIRE</strong><span id="timerText" role="timer" aria-live="off">${clockSeconds()}s remaining</span></div><div class="timer-track"><div id="timerBar" class="timer-bar"></div></div><div class="mini">The target stays locked until you answer. Timeouts cause immediate misfires.</div></div>`:'';
+    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">Target grid · ${esc(op.name)}'s waters (${boardSize} × ${boardSize})</h2><div class="boardwrap">${board(p,'attack')}</div>
+      <div class="mini" style="margin-top:12px">Choose an untried square. Across is the first number; down is the second.</div>
+      <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700;color:var(--gold)">Show my own fleet and damage</summary><div class="boardwrap" style="margin-top:12px">${board(p,'fleet')}</div></details></section>
+      <aside class="panel side"><div class="sub">CURRENT CAPTAIN</div><h2>${esc(p.name)}</h2>
+      <div class="shots"><div class="stat"><strong>${shots.filter(s=>s==='hit').length}</strong><span class="mini">Successful hits</span></div><div class="stat"><strong>${shots.filter(s=>s==='miss').length}</strong><span class="mini">Misses</span></div></div>
+      <div class="stat"><strong>Fleet status</strong><span class="mini">Your ships left afloat: ${afloatIndices(p).length} / ${fleet.length}</span></div>
+      <p>Choose a target, then solve the multiplication equation to fire.</p>
+      ${difficulty==='nightmare'?`<div class="stat"><strong>YOUR FIRING SHIP</strong><p class="mini">Wrong answer or timeout sinks your selected ship. Choose your firing ship before targeting.</p>
+        <select id="firingShip" class="game-select" aria-label="Choose firing ship" ${selected!==null?'disabled':''}>${p.ships.map((s,i)=>`<option value="${i}" ${shipSunk(p,s)?'disabled':''} ${i===firingShip?'selected':''}>${s.icon} ${esc(s.name)} (${s.size})${shipSunk(p,s)?' — SUNK':''}</option>`).join('')}</select></div>`:''}
+      ${selected===null?'<div class="status">Select a square to prepare an attack.</div>':`<div class="status">Target: <strong>${selected%boardSize+1} across × ${Math.floor(selected/boardSize)+1} down</strong></div>
+        <div class="equation">${selected%boardSize+1} × ${Math.floor(selected/boardSize)+1} = ?</div>${clockHtml}
+        <form id="fireForm"><label class="field" style="margin-bottom:10px">YOUR ANSWER<div class="answerrow"><input id="answer" type="number" min="0" max="225" inputmode="numeric" required autocomplete="off" aria-label="Multiplication answer"><button class="btn" type="submit">Fire! ⚡</button></div></label></form>`}
+      ${message?`<div class="status warn" role="status">${esc(message)}</div>`:''}
+      ${wrongAttempts>0?'<div class="mini">Target locked for retry. '+(difficulty==='training'?'Keep practicing.':'One more incorrect answer loses your turn.')+'</div>':''}
+      <div class="stat"><strong>Misfires: ${misfires[who]}</strong><span class="mini">${modeRules[difficulty].detail}</span></div>
+      <div class="stat"><strong>Shot markers</strong><span class="mini">✕ = hit &nbsp;&nbsp; • = miss &nbsp;&nbsp; dark square = not yet fired</span></div>
+      </aside></div>`;
+    const firingSelect=document.getElementById('firingShip');
+    if(firingSelect)firingSelect.onchange=()=>{firingShip=Number(firingSelect.value);};
+    app.querySelectorAll('[data-select]').forEach(b=>b.onclick=()=>{
+      if(wrongAttempts>0||(timed&&selected!==null))return;
+      const [x,y]=b.dataset.select.split(',').map(Number);selected=coord(x,y);wrongAttempts=0;message='';
+      if(timed){clearClock();shotDeadline=performance.now()+Math.round(timeLimits[difficulty]*timeMultiplier)*1000;}
+      render();if(timed){if(timerHandle!==null)clearInterval(timerHandle);timerHandle=setInterval(drawClock,100);drawClock();}
+      document.getElementById('answer')?.focus();
+    });
+    const form=document.getElementById('fireForm');
+    if(form)form.onsubmit=e=>{
+      e.preventDefault();if(selected===null)return;
+      if(timed&&clockSeconds()===0){handleTimeout();return;}
+      const answer=Number(document.getElementById('answer').value);
+      const x=selected%boardSize+1,y=Math.floor(selected/boardSize)+1;
+      if(answer!==x*y){
+        wrongAttempts++;
+        if(difficulty==='training'||difficulty==='standard'&&wrongAttempts===1){
+          message=`TARGETING ERROR — ${difficulty==='training'?'Try again!':'One retry!'} ${mathHint(x,y)}`;
+          render();document.getElementById('answer')?.focus();return;
+        }
+        applyMisfire('incorrect');return;
+      }
+      clearClock();
+      fireHit(who,selected);selected=null;wrongAttempts=0;message='';switchState('result');
+    };
+    if(shotDeadline!==null&&timed)drawClock();
+  }
+  function fireHit(attacker,target){
+    const p=players[attacker],op=players[1-attacker];
+    const ship=getShip(op,target),hit=!!ship;
+    p.attacks[target]=hit?'hit':'miss';
+    const sunk=hit&&shipSunk(op,ship);
+    lastShot={attacker,target,hit,sunk,ship:hit?ship.name:null,win:allSunk(op)};
+    if(attacker===1&&gameMode==='computer'&&sunk)ship.cells.forEach(i=>aiSunkCells.add(i));
+  }
+  function applyMisfire(reason,attacker=who){
+    clearClock();
+    const p=players[attacker],enemy=players[1-attacker];
+    misfires[attacker]++;
+    lastShot={attacker,target:selected,reason,misfire:true,nightmare:difficulty==='nightmare',ship:null,opponentWins:false};
+    if(difficulty==='nightmare'){
+      const ix=attacker===0?firingShip:afloatIndices(p)[Math.floor(Math.random()*afloatIndices(p).length)];
+      const ship=p.ships[ix];
+      if(!ship||shipSunk(p,ship)){
+        // Should never occur: the game automatically chooses a surviving ship.
+        lastShot.nightmare=false;
+      }else{
+        ship.cells.forEach(i=>enemy.attacks[i]='hit');lastShot.ship=ship.name;
+        lastShot.opponentWins=allSunk(p);
+      }
+    }
+    selected=null;wrongAttempts=0;message='';
+    switchState(attacker===1&&gameMode==='computer'?'aiResult':'misfire');
+  }
+  function handleTimeout(){
+    if(!timed||state!=='turn'||selected===null||clockSeconds()>0)return;
+    applyMisfire('timeout');
+  }
+  function viewMisfire(){
+    const p=players[who],x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
+    const loss=lastShot.opponentWins,nightmare=lastShot.nightmare,timeout=lastShot.reason==='timeout';
+    chip.textContent=loss?'GAME OVER':timeout?'TIME EXPIRED':'TARGETING FAILURE';
+    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon explosion">${nightmare?'💥':'⚠️'}</div>
+      <div class="sub">${timeout?'TIME EXPIRED · MISFIRE':nightmare?'NIGHTMARE · INCORRECT ANSWER':'INCORRECT ANSWER'}</div>
+      <h1 style="color:var(--gold)">${loss?esc(players[1-who].name)+' wins!':nightmare?'FRIENDLY FIRE! '+esc(lastShot.ship)+' SUNK!':'MISFIRE! TURN LOST'}</h1>
+      <p>${timeout?'You ran out of time. ':''}That target was ${x} × ${y} = <strong style="color:var(--gold)">${x*y}</strong>.</p>
+      <div class="status">${nightmare?`Your ${esc(lastShot.ship)} sank. The enemy target was not revealed. ${loss?'Your entire fleet was destroyed.':'Your turn is over.'}`:'Your shot was canceled. You can try that target again on a later turn.'} ${esc(mathHint(x,y))}</div>
+      <div class="btnrow"><button class="btn" id="next">${loss?'Play another game':gameMode==='computer'?'Computer captain’s turn →':'End turn · Cover the screen →'}</button></div></section>`;
+    document.getElementById('next').onclick=()=>{
+      if(loss){resetGame();return;}
+      who=1-who;selected=null;
+      switchState(gameMode==='computer'?'aiThinking':'handoffTurn');
+    };
+  }
+  function viewResult(){
+    const attacker=lastShot.attacker,p=players[attacker],win=lastShot.win;
+    const x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
+    chip.textContent=win?'GAME OVER':'SHOT RESULT';
+    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon ${win?'victory':lastShot.hit?'explosion':'splash'}">${win?'🏆':lastShot.hit?'💥':'🌊'}</div>
+      <div class="sub">${esc(p.name)} fired at ${x} × ${y} = ${x*y}</div>
+      <div class="burst" aria-hidden="true">${Array.from({length:16},(_,i)=>`<i style="--a:${i*22.5}deg;--d:${65+i%4*14}px"></i>`).join('')}</div>
+      <h1>${win?esc(p.name)+' wins!':lastShot.sunk?'Ship sunk!':lastShot.hit?'Direct hit!':'Miss!'}</h1>
+      <p>${win?'You sank every enemy ship.':lastShot.sunk?'You sank the '+esc(lastShot.ship)+'.':lastShot.hit?'You hit an enemy ship.':'No ship at that location.'}</p>
+      <div class="btnrow"><button class="btn" id="next">${win?'Play another game':gameMode==='computer'?'Computer captain’s turn →':'End turn · Cover the screen →'}</button></div></section>`;
+    document.getElementById('next').onclick=()=>{
+      if(win){resetGame();return;}
+      who=1-who;selected=null;
+      switchState(gameMode==='computer'?'aiThinking':'handoffTurn');
+    };
+  }
+  function indexNeighbors(i){
+    const x=i%boardSize,y=Math.floor(i/boardSize),out=[];
+    if(x>0)out.push(i-1);if(x<boardSize-1)out.push(i+1);
+    if(y>0)out.push(i-boardSize);if(y<boardSize-1)out.push(i+boardSize);
+    return out;
+  }
+  function chooseAiTarget(){
+    const ai=players[1],attacks=ai.attacks;
+    const free=Array.from({length:boardSize*boardSize},(_,i)=>i).filter(i=>attacks[i]===undefined);
+    if(!free.length)return null;
+    const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
+    const liveHits=Object.keys(attacks).map(Number).filter(i=>attacks[i]==='hit'&&!aiSunkCells.has(i));
+    const targetSet=new Set();
+    for(const i of liveHits){
+      for(const n of indexNeighbors(i))if(attacks[n]===undefined)targetSet.add(n);
+    }
+    // For consecutive hits, continue along their horizontal/vertical direction.
+    const lines=[];
+    for(const i of liveHits){
+      if(liveHits.includes(i+1)&&Math.floor((i+1)/boardSize)===Math.floor(i/boardSize)){
+        if(i%boardSize>0&&attacks[i-1]===undefined)lines.push(i-1);
+        if((i+2)%boardSize!==0&&attacks[i+2]===undefined)lines.push(i+2);
+      }
+      if(liveHits.includes(i+boardSize)){
+        if(i>=boardSize&&attacks[i-boardSize]===undefined)lines.push(i-boardSize);
+        if(i+boardSize*2<boardSize*boardSize&&attacks[i+boardSize*2]===undefined)lines.push(i+boardSize*2);
+      }
+    }
+    if(aiLevel==='rookie'){
+      if(targetSet.size&&Math.random()<0.22)return pick([...targetSet]);
+      return pick(free);
+    }
+    if(targetSet.size&&(aiLevel!=='normal'||Math.random()<0.72)){
+      const options=lines.filter(i=>attacks[i]===undefined);
+      return options.length?pick(options):pick([...targetSet]);
+    }
+    if(aiLevel==='normal')return pick(free);
+    const checker=free.filter(i=>(Math.floor(i/boardSize)+i%boardSize)%2===0);
+    if(aiLevel==='hard')return pick(checker.length?checker:free);
+    // Nightmare: rank unknown squares by the number of legal remaining-ship placements covering them.
+    const score=new Map(free.map(i=>[i,0]));
+    const sunkNames=players[0].ships.filter(s=>shipSunk(players[0],s)).map(s=>s.name);
+    const remaining=fleet.filter(s=>!sunkNames.includes(s.name));
+    for(const s of remaining){
+      for(let y=0;y<boardSize;y++)for(let x=0;x<boardSize;x++)for(const v of [false,true]){
+        const cells=[];
+        for(let k=0;k<s.size;k++){
+          const xx=x+(v?0:k), yy=y+(v?k:0);
+          if(xx>=boardSize||yy>=boardSize)break;
+          cells.push(coord(xx,yy));
+        }
+        if(cells.length!==s.size||cells.some(i=>attacks[i]==='miss'||aiSunkCells.has(i)))continue;
+        // Prefer plausible placements containing known unsunk hits.
+        const bonus=liveHits.length?1+2*cells.filter(i=>liveHits.includes(i)).length:1;
+        for(const i of cells)if(score.has(i))score.set(i,score.get(i)+bonus);
+      }
+    }
+    let top=-1,choices=[];
+    for(const [i,n] of score){if(n>top){top=n;choices=[i];}else if(n===top)choices.push(i);}
+    return pick(choices.length?choices:free);
+  }
+  function viewAiThinking(){
+    chip.textContent='COMPUTER TURN';
+    app.innerHTML=`<section class="panel center"><div class="bigicon flagship">🤖</div><div class="sub">${esc(captainNames[aiLevel])}</div>
+      <h1>Computer is targeting...</h1><p>The computer is studying its previous hits and misses. It cannot see your hidden ships.</p>
+      <div class="loader"></div><p class="mini">The computer uses its own targeting strategy and simulates multiplication accuracy.</p></section>`;
+    if(aiHandle!==null)clearTimeout(aiHandle);
+    aiHandle=setTimeout(()=>{aiHandle=null;if(state!=='aiThinking')return;computerTurn();},950);
+  }
+  function computerTurn(){
+    const target=chooseAiTarget();
+    if(target===null){resetGame();return;}
+    who=1;selected=target;
+    const mistake=Math.random()>accuracy[aiLevel];
+    if(mistake&&difficulty!=='training'){
+      // Standard has one recovery; a computer that errs gets a chance to correct it.
+      const secondWrong=difficulty!=='standard'||Math.random()>accuracy[aiLevel];
+      if(secondWrong){applyMisfire('incorrect',1);return;}
+    }
+    fireHit(1,target);selected=null;switchState('aiResult');
+  }
+  function viewAiResult(){
+    const ai=players[1],loseHuman=lastShot.misfire&&lastShot.opponentWins;
+    const win=lastShot.win&&!lastShot.misfire;
+    const x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
+    chip.textContent=win||loseHuman?'GAME OVER':'COMPUTER RESULT';
+    const mis=!!lastShot.misfire;
+    const mainTitle=loseHuman?'You win! The computer sank its final ship.':mis?(lastShot.nightmare?`${esc(ai.name)} sank its own ${esc(lastShot.ship)}!`:'Computer misfire!'):
+      win?`${esc(ai.name)} wins!`:lastShot.sunk?`Computer sank your ${esc(lastShot.ship)}!`:lastShot.hit?'Computer hit your ship!':'Computer missed!';
+    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon ${mis||lastShot.hit?'explosion':'splash'}">${win?'🏆':mis?'⚠️':lastShot.hit?'💥':'🌊'}</div>
+      <div class="sub">${esc(ai.name)} · ${captainNames[aiLevel]} turn</div><h1>${mainTitle}</h1>
+      <p>${mis?'The computer made a math mistake, so its attack never reached your fleet.':`It attacked column ${x}, row ${y} (${x} × ${y} = ${x*y}).`}</p>
+      <div class="status">${loseHuman?'Your opponent sank its last ship. You win!':win?'All of your ships have been sunk.':mis?lastShot.nightmare?'The computer lost a ship to friendly fire.':'Its shot was canceled.':lastShot.sunk?'One of your ships has been destroyed.':lastShot.hit?'Your fleet took a hit.':'Your fleet is safe this round.'}</div>
+      <div class="btnrow"><button class="btn" id="next">${win||loseHuman?'Play another game':'My turn →'}</button></div></section>`;
+    // A computer's last-ship misfire is a victory for the student, not for the computer.
+    document.getElementById('next').onclick=()=>{if(win||loseHuman){resetGame();return;}who=0;selected=null;firingShip=afloatIndices(players[0])[0]??0;switchState('turn');};
+  }
+  function resetGame(){cancelBackgroundWork();players=[];who=0;placement=0;vertical=false;selected=null;wrongAttempts=0;misfires=[0,0];firingShip=0;lastShot=null;message='';aiSunkCells=new Set();switchState('welcome');}
+  function render(){
+    const quit=document.getElementById('endGame');
+    quit.hidden=state==='welcome';
+    quit.onclick=()=>{if(confirm('End this match and return to the main menu? All progress will be lost.'))resetGame();};
+    if(state==='welcome')viewIntro();
+    else if(state==='handoffSetup'||state==='handoffTurn')viewHandoff();
+    else if(state==='setup')viewSetup();
+    else if(state==='turn')viewTurn();
+    else if(state==='result')viewResult();
+    else if(state==='misfire')viewMisfire();
+    else if(state==='aiThinking')viewAiThinking();
+    else if(state==='aiResult')viewAiResult();
+  }
+  render();
 })();
 </script></body></html>
