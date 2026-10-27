@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Multiplication Battleship — Pass & Play</title>
+<title>Multiplication Battleship — Fleet Command V2</title>
 <style>
 :root{--bg:#081729;--panel:#10253c;--panel2:#15334f;--line:#31516c;--sea:#16446b;--sea2:#1e5683;--ink:#f0f7ff;--muted:#a8c1d5;--gold:#ffd46e;--mint:#55e0b0;--red:#ff7777}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 30% 0%,#164268,var(--bg) 63%);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}.shell{max-width:1160px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:20px}.brand{font-weight:900;letter-spacing:.04em;font-size:clamp(21px,3vw,32px)}.sub{color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.chip{padding:9px 13px;border:1px solid var(--line);border-radius:99px;color:var(--muted);font-size:13px}.panel{background:rgba(16,37,60,.94);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 12px 36px #0004}.center{max-width:610px;margin:6vh auto;text-align:center}.center h1{font-size:clamp(30px,5vw,52px);line-height:1.1;margin:12px 0}.center p{line-height:1.6;color:var(--muted)}.bigicon{font-size:60px;margin:12px}.btn{background:var(--gold);color:#102034;border:0;border-radius:11px;padding:12px 19px;font-weight:800}.btn.secondary{background:#1c4362;color:var(--ink);border:1px solid #48718f}.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:20px}.field{display:flex;flex-direction:column;text-align:left;gap:5px;color:var(--muted);font-size:13px;flex:1;min-width:170px}.field input{background:#091c30;color:white;padding:12px;border:1px solid var(--line);border-radius:10px;max-width:100%}.namefields{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.playlayout{display:grid;grid-template-columns:minmax(310px,640px) minmax(230px,1fr);gap:18px;align-items:start}.boardpanel{padding:16px}.boardtitle{font-weight:800;font-size:20px;margin:0 0 12px}.boardwrap{width:100%;max-width:620px;margin:auto}.board{display:grid;grid-template-columns:30px repeat(10,minmax(0,1fr));gap:3px;user-select:none}.coord{display:grid;place-items:center;font-size:12px;color:#92b9d8;font-weight:700}.cell{aspect-ratio:1;background:var(--sea);border:1px solid #38749c;border-radius:6px;display:grid;place-items:center;color:#eaffff;font-weight:900;font-size:clamp(11px,1.7vw,22px);padding:0}.cell.interactive:hover{background:#357ba7;border-color:#b5e4ff}.cell.ship{background:#648097;border-color:#abc4cf}.cell.ship.hit{background:#9a3d4e}.cell.miss{background:#18314b;color:#86c5e9}.cell.hit{background:#9a3d4e;border-color:#f9a0a4;color:white}.cell.selected{outline:3px solid var(--gold);outline-offset:-3px;background:#41769a}.cell.disabled{cursor:default}.side h2{margin:0 0 10px}.side p{color:var(--muted);line-height:1.5}.stat{background:#0b2034;border:1px solid #294763;border-radius:10px;padding:12px;margin-top:9px}.stat strong{display:block;color:var(--ink);margin-bottom:3px}.mini{color:var(--muted);font-size:13px}.ships{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 16px}.shiptag{border:1px solid #426782;border-radius:10px;background:#143852;padding:10px 12px;color:var(--ink)}.shiptag.active{border-color:var(--gold);box-shadow:0 0 0 2px #ffd46e44}.shiptag.done{opacity:.5;text-decoration:line-through}.status{padding:13px;border-radius:10px;background:#0a1e32;border:1px solid #31516c;margin:13px 0;line-height:1.5}.success{border-color:#38bd98;color:#aaf3d9}.warn{border-color:#ee8888;color:#ffd4d4}.shots{display:grid;grid-template-columns:1fr 1fr;gap:9px}.shots .stat{margin:0}.equation{font-size:clamp(24px,3vw,36px);font-weight:900;margin:15px 0;color:var(--gold)}.answerrow{display:flex;gap:10px;align-items:center}.answerrow input{min-width:0;width:140px;background:#071b2b;border:1px solid #517491;border-radius:9px;padding:12px;color:white;font-size:22px;font-weight:700}.muted{color:var(--muted)}.footer{text-align:center;color:#7e9db8;margin:22px 0;font-size:12px}.kbd{background:#294963;border-radius:6px;padding:2px 6px;color:#fff}@media(max-width:790px){.playlayout{grid-template-columns:1fr}.shell{padding:12px}.panel{padding:15px}.board{grid-template-columns:24px repeat(10,minmax(0,1fr));gap:2px}.cell{border-radius:3px}.center{margin:3vh auto}}@media(prefers-reduced-motion:no-preference){.btn,.cell{transition:background .12s,transform .12s}.btn:not(:disabled):hover{transform:translateY(-1px)}}
@@ -55,9 +55,119 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
 .loader{margin:20px auto;width:82px;height:8px;border-radius:99px;background:linear-gradient(90deg,#143e62,#ffd46e,#143e62);animation:float .8s ease-in-out infinite}
 [hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){.loader{animation:none}.timer-bar{transition:none}}
+
+
+/* ═════════ Fleet Command V2 visual system ═════════ */
+:root{--sonar:#61eeea;--bright:#ebf9ff;--copper:#eab855}
+body{background:radial-gradient(ellipse at 52% -22%,#244f78 0,#0b243a 38%,#040c17 78%);}
+body:before{background:radial-gradient(circle at 55% 12%,#3ac5ff0a,transparent 45%),repeating-linear-gradient(0deg,#efffff02 0 1px,transparent 1px 54px);}
+.shell{max-width:1350px;padding:24px 24px 16px}
+.top{padding:6px 0 21px;margin-bottom:24px;gap:16px}
+.brand{font-size:clamp(22px,2.55vw,35px);letter-spacing:.015em;line-height:1.22;text-shadow:0 6px 24px #000a}
+.brand .brand-symbol{display:inline-flex;width:39px;height:39px;align-items:center;justify-content:center;background:linear-gradient(140deg,#2c6783,#112c43);border:1px solid #86dce4;border-radius:12px;margin-right:8px;vertical-align:middle;box-shadow:0 0 22px #4dcaff22}
+.sub{color:#87d6e7;letter-spacing:.13em;font-weight:850}
+.school{background:#e5b747;letter-spacing:.06em}
+.panel{border:1px solid #46738a80;background:linear-gradient(155deg,#15364cae,#091c2bed 47%,#071724fa);box-shadow:inset 0 1px #d0f4ff11,0 18px 48px #0006}
+.chip{background:#123447;color:#b6fdf5;border-color:#4b9ca2;white-space:nowrap}
+.btn{border-radius:12px}.btn:focus-visible,.cell:focus-visible,.sizebtn:focus-visible{outline:3px solid #fff7be;outline-offset:3px}
+.audio-button{padding:10px 12px;font-size:12px;box-shadow:none!important;white-space:nowrap;color:#b4f6ee!important;border-color:#447e87!important;background:#143d4a!important}
+.audio-button[aria-pressed="false"]{color:#a8b4c2!important}
+.playlayout{grid-template-columns:minmax(0,820px) minmax(280px,1fr);gap:20px}
+.boardpanel{padding:18px 19px 20px;overflow:hidden}
+.board-title-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.board-title-strip h2{margin:0;font-size:clamp(17px,2vw,22px)}
+.board-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;color:#65e2d6;margin-bottom:4px}
+.live-flag{display:flex;align-items:center;gap:7px;color:#afffda;font-size:11px;font-weight:850;border:1px solid #428578;background:#133b45;border-radius:40px;padding:6px 10px;letter-spacing:.045em}
+.live-flag:before{content:"";width:7px;height:7px;background:#4bffba;border-radius:50%;box-shadow:0 0 9px #42ff9b}
+.board-frame{padding:clamp(8px,1.6vw,17px);position:relative;border:1px solid #6caaa94a;border-radius:17px;background:linear-gradient(160deg,#091b2ae8,#133e5677 60%,#082335df);box-shadow:inset 0 0 0 1px #ffffff0d,0 18px 34px #0005}
+.board-frame:before{position:absolute;content:"";inset:0;border-radius:17px;pointer-events:none;background:linear-gradient(135deg,#d8ffff12,transparent 40%,#b6fffd08)}
+.boardframe-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;color:#9bdae5;font-weight:900;font-size:10px;letter-spacing:.17em;text-transform:uppercase;position:relative}
+.boardframe-meta .signal{color:#f6d886}
+.boardwrap{max-width:755px;position:relative}
+.board{--sea:#0e3959;position:relative;grid-template-columns:clamp(18px,2.7vw,31px) repeat(var(--n),minmax(0,1fr));gap:clamp(1px,.28vw,3px);background:#0b2d4a;border:1px solid #467993b9;border-radius:7px;padding:4px;box-shadow:inset 0 0 35px #0006,0 9px 22px #0003;isolation:isolate}
+.board:after{content:"";position:absolute;inset:4px;border:1px solid #86d4ef20;pointer-events:none;border-radius:6px;z-index:4}
+.coord{color:#d6edf8;font-size:clamp(9px,1.03vw,13px);font-weight:900;text-shadow:0 2px 3px #00131a;z-index:2}
+.cell{position:relative;z-index:1;overflow:hidden;isolation:isolate;border-radius:3px;color:#fff;background:linear-gradient(145deg,#1e5b7e,#104563 40%,#0d3857 90%);border:1px solid #3b779573;box-shadow:inset 0 1px #a8f9ff11,inset 0 -3px 10px #05172b4f;font-size:clamp(9px,1.4vw,18px);transition:filter .15s,border-color .12s,background .15s,box-shadow .15s}
+.cell:before{content:"";position:absolute;inset:1px;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 9px,#92d7ed0b 10px 11px,transparent 12px 20px);opacity:.8}
+.cell:not(.ship):not(.hit):not(.miss) .unexplored-dot{width:4px;height:4px;border-radius:50%;background:#9ed3ee6e;box-shadow:0 0 5px #7be8ff55}
+.cell.interactive:hover,.cell.interactive:focus-visible{background:#27769a;border-color:#caf8ff;box-shadow:inset 0 0 0 2px #a9f7ff,0 0 17px #3cdcf350;z-index:3;transform:scale(1.045)}
+.cell.interactive:hover:after,.cell.selected:after{content:"";position:absolute;inset:10%;border:2px solid #f9d76d;border-radius:50%;box-shadow:0 0 0 1px #071928,inset 0 0 0 1px #071928;pointer-events:none}
+.cell.selected{outline:0;background:radial-gradient(circle,#4f7a89,#0d465d);border:2px solid #ffdf71;box-shadow:0 0 0 1px #b5e9ec,0 0 21px #f9d76b68;z-index:3;animation:targetPulse 1.3s ease-in-out infinite}
+@keyframes targetPulse{50%{box-shadow:0 0 0 1px #b5e9ec,0 0 30px #f9d76b88}}
+.cell.hit{border-color:#ffa877;background:radial-gradient(circle at 45% 45%,#bb5236,#6f273d 67%,#351e35);box-shadow:0 0 14px #ff744945,inset 0 0 0 1px #ffd9ab}
+.cell.hit:after{content:"";position:absolute;inset:17%;background:radial-gradient(circle,#fff7d7 0 15%,#ffbc69 16% 33%,#f06b36 34% 57%,transparent 58%);clip-path:polygon(50% 0,63% 29%,87% 13%,72% 42%,100% 50%,73% 59%,85% 86%,58% 72%,50% 100%,40% 70%,12% 86%,28% 59%,0 48%,28% 39%,14% 13%,40% 29%);filter:drop-shadow(0 0 4px #fff2a1);pointer-events:none}
+.cell.miss{background:radial-gradient(circle,#0d4767,#091f3b 80%);border-color:#5e8eab}
+.cell.miss:after{content:"";position:absolute;inset:20%;border:2px solid #a8eeff;border-radius:50%;box-shadow:0 0 0 3px #83d8f83c,0 0 0 6px #b2e7fa20,inset 0 0 7px #cfffff55;pointer-events:none}
+.cell.ship{box-shadow:0 4px 10px #0013239e,inset 0 0 0 2px #f0f8ff25;z-index:2}
+.cell.ship:before{background:repeating-linear-gradient(90deg,#fafbff18 0 3px,transparent 4px 10px)}
+.cell.ship:not(.hit){border-color:#cfedf7b0}
+.cell.ship-hit:after{z-index:4}
+.cell.ship .deck-shape{position:absolute;inset:16% 5%;display:grid;place-items:center;filter:drop-shadow(0 2px 3px #00131bbd);z-index:2}
+.cell.ship .deck-shape:before{content:"";position:absolute;inset:0;background:linear-gradient(#e4f4fc,#6d8396 49%,#415970);border:1px solid #f4f6fb;box-shadow:inset 0 0 0 2px #1a4055;border-radius:38% 38% 24% 24%}
+.cell.ship .deck-shape:after{content:"";position:absolute;inset:23% 25%;background:#203e56;border:1px solid #d9e8f6a8;border-radius:2px}
+.cell.ship .deck-shape i{position:relative;z-index:1;width:9px;height:9px;border-radius:50%;background:#f7da83;border:2px solid #354455}
+.cell.ship.ship-h .deck-shape{inset:14% 2%;transform:rotate(90deg)}
+.cell.ship.ship-h .deck-shape i{transform:rotate(-90deg)}
+.cell.ship.ship-bow .deck-shape:before{border-radius:50% 50% 10% 10%}
+.cell.ship.ship-stern .deck-shape:before{border-radius:10% 10% 35% 35%}
+.cell.ship-carrier .deck-shape:before{background:linear-gradient(#d5e6ef,#668b9d 52%,#344c66)}
+.cell.ship-battleship .deck-shape:before{background:linear-gradient(#f5d77a,#b38848 60%,#705c4e)}
+.cell.ship-cruiser .deck-shape:before{background:linear-gradient(#bdecdc,#458b81 60%,#24615b)}
+.cell.ship-submarine .deck-shape:before{background:linear-gradient(#dedafc,#6967a5 60%,#474e83);border-radius:45%}
+.cell.ship-patrol .deck-shape:before{background:linear-gradient(#ffd9af,#b85e54 60%,#754048)}
+.cell.ship.hit .deck-shape{opacity:.35}
+.side{position:relative}.side h2{font-size:clamp(20px,2vw,27px);margin:7px 0 14px}.stat{background:#061b2bc9;border-color:#38647f;border-radius:11px}.stat strong{font-size:20px;color:#fff}.stat .mini{line-height:1.5}.shots .stat{background:linear-gradient(145deg,#113952,#081d31);text-align:center}.shots .stat strong{font-size:clamp(27px,3.3vw,38px);color:#ebd480}
+.status{background:linear-gradient(130deg,#103349,#071b2b);border:1px solid #588996;color:#dcefff}
+.equation{display:inline-block;border:1px solid #e4bf64;border-radius:12px;padding:12px 20px;background:radial-gradient(circle,#1b4d60,#0b2a42);color:#ffde78;font-size:clamp(26px,3.3vw,43px);letter-spacing:.04em;box-shadow:0 6px 25px #0004}
+.answerrow input{border-color:#76c6cf;background:#06172a;font-size:25px}
+.answerrow .btn{padding:15px 21px}
+.fleet-dots{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:10px}.fleet-dot{padding:5px 8px;border-radius:30px;border:1px solid #4c7c88;font-size:10px;color:#a7d6e0}.fleet-dot.is-alive{color:#b7f3d0;border-color:#47a981;background:#124737}.fleet-dot.is-sunk{color:#f4a09f;border-color:#bd6e73;background:#4e242f;text-decoration:line-through}
+.readout{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px}.readout span{display:inline-flex;align-items:center;gap:5px;border:1px solid #2d6e81;padding:5px 8px;border-radius:50px;background:#092a3c;color:#aadbd9}
+.readout em{display:block;width:8px;height:8px;border-radius:50%;background:#9ee8ed}.readout .r-hit em{background:#ff825c}.readout .r-water em{background:#1d79a4}.readout .r-target em{background:#f3d26e}
+/* Ocean panorama: all vector/CSS, no outside image dependencies */
+.ocean-hero,.battle-scene{position:relative;width:100%;overflow:hidden;border-radius:18px;border:1px solid #468ca4;background:linear-gradient(#13364e 0 30%,#26728c 31% 33%,#12526f 33% 60%,#07324c 100%);box-shadow:inset 0 0 70px #0007,0 14px 32px #0004;isolation:isolate}
+.ocean-hero{height:220px;margin:0 auto 14px}.battle-scene{height:245px;margin:0 auto 19px;max-width:700px}
+.ocean-hero:before,.battle-scene:before{content:"";position:absolute;top:7%;left:58%;width:95px;height:95px;border-radius:50%;background:radial-gradient(circle,#f5d896c9 0 18%,#a6ded21a 55%,transparent 70%)}
+.ocean-hero:after,.battle-scene:after{content:"";position:absolute;inset:38% -5% -10%;background:repeating-radial-gradient(ellipse at 10% 0%,#91ecfa28 0 2px,transparent 3px 16px),repeating-linear-gradient(176deg,#70ceea16 0 1px,transparent 2px 15px);transform:perspective(260px) rotateX(30deg);animation:waterDrift 9s linear infinite;pointer-events:none}
+.ocean-hero .horizon,.battle-scene .horizon{position:absolute;z-index:1;left:0;right:0;top:33%;border-top:2px solid #92e8fa55;box-shadow:0 0 18px #66d6e667}
+.ocean-hero .big-ship,.battle-scene .big-ship{position:absolute;z-index:3;width:min(79%,510px);height:55%;left:12%;top:34%;filter:drop-shadow(1px 13px 8px #0014259c)}
+.ocean-hero .big-ship{top:27%;height:67%}
+.big-ship svg{width:100%;height:100%;overflow:visible}
+.scene-sun{position:absolute;z-index:1;width:180px;height:85px;border-radius:50%;background:#79d6d72a;filter:blur(25px);top:28%;left:35%}
+.battle-scene .blast{position:absolute;z-index:5;width:130px;height:130px;left:50%;top:33%;transform:translate(-50%,-50%);background:radial-gradient(circle,#fff7d5 0 15%,#ffd279 16% 36%,#fa7838 37% 56%,#ff5b342b 70%,transparent 75%);clip-path:polygon(50% 0,61% 29%,85% 5%,70% 40%,100% 45%,69% 59%,89% 92%,56% 73%,47% 100%,38% 72%,10% 91%,28% 57%,0 40%,33% 39%,14% 6%,41% 29%);filter:drop-shadow(0 0 17px #fd935e);animation:detonate 1.25s ease-out both}
+.battle-scene.miss .blast{background:radial-gradient(ellipse at bottom,#ceffff 0 10%,#7cd8fdba 11% 34%,transparent 60%);clip-path:polygon(50% 0,62% 37%,73% 14%,67% 64%,90% 60%,64% 84%,50% 100%,36% 80%,14% 64%,38% 60%,25% 15%,44% 37%);filter:drop-shadow(0 0 12px #a8ecfb);top:63%;animation:waterspout 1.35s ease-out both}
+.battle-scene.misfire .blast{background:radial-gradient(circle,#fff0bf,#e0ad5b 38%,transparent 68%);clip-path:none;border-radius:50%;opacity:.75;top:50%;animation:misfireGlow 1s ease-out both}
+.battle-scene .impact-ring{position:absolute;z-index:4;left:50%;top:56%;width:70px;height:30px;border:4px solid #d4f9f9;border-radius:50%;transform:translate(-50%,-50%);animation:impactRing 1.35s ease-out both}
+.battle-scene .smoke{position:absolute;z-index:5;left:46%;top:13%;width:70px;height:75px;border-radius:50%;background:radial-gradient(circle,#d7dbe3a8,#7381968a 45%,transparent 72%);filter:blur(5px);animation:smokeRise 2.1s ease-out both}
+.battle-scene .shell-trace{position:absolute;z-index:6;left:18%;top:18%;width:6px;height:6px;border-radius:50%;background:#fff1ae;box-shadow:0 0 13px 5px #ffdc82, -60px 20px 0 -2px #ffffff66;animation:shellFlight .75s ease-in both}
+.battle-scene.misfire .big-ship{opacity:.5}
+.battle-scene.win .blast{animation:detonate 2s ease-out infinite alternate}
+.scene-label{position:absolute;top:12px;left:15px;z-index:7;background:#071e2acc;border:1px solid #5ca5ae;border-radius:8px;color:#b9eef5;font-size:10px;font-weight:900;letter-spacing:.12em;padding:6px 9px}
+.scene-result{position:absolute;z-index:7;bottom:10px;right:12px;background:#051c2cd9;padding:6px 10px;border:1px solid #e0ba65;border-radius:7px;color:#ffe9af;font-size:11px;letter-spacing:.08em;font-weight:900}
+@keyframes detonate{0%{opacity:0;transform:translate(-50%,-50%) scale(.15)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}70%{opacity:.87}100%{opacity:.5;transform:translate(-50%,-50%) scale(1.6)}}
+@keyframes waterDrift{to{transform:perspective(260px) rotateX(30deg) translateX(23px)}}
+@keyframes waterspout{0%{opacity:0;transform:translate(-50%,35%) scale(.25)}35%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-80%) scale(1.5)}}
+@keyframes impactRing{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(4.8)}}
+@keyframes smokeRise{0%{opacity:0;transform:translateY(20px) scale(.5)}30%{opacity:1}100%{opacity:0;transform:translateY(-80px) scale(2)}}
+@keyframes shellFlight{0%{transform:translate(-150px,80px);opacity:1}95%{opacity:1}100%{transform:translate(250px,90px);opacity:0}}
+@keyframes misfireGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}50%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+.hero-copy{position:absolute;z-index:6;bottom:14px;left:16px;text-align:left;background:linear-gradient(90deg,#041829e8,#081e2ab0,transparent);border-left:4px solid #f3cc71;padding:9px 15px;border-radius:5px;max-width:75%}.hero-copy strong{display:block;font-size:clamp(16px,2.2vw,26px);letter-spacing:.02em}.hero-copy span{display:block;font-size:11px;color:#b6e2eb;margin-top:3px}
+.center{max-width:770px;padding:24px}.center h1{font-size:clamp(28px,4vw,46px)}.center p{font-size:15px}
+@media(max-width:950px){.playlayout{grid-template-columns:1fr}.boardwrap{max-width:730px}.side{max-width:none}.boardpanel{padding:14px}}
+@media(max-width:620px){.shell{padding:10px}.board-frame{padding:8px}.board{grid-template-columns:18px repeat(var(--n),minmax(0,1fr));gap:1px;padding:2px}.coord{font-size:9px}.cell{border-radius:1px}.cell.ship .deck-shape i{width:4px;height:4px;border-width:1px}.cell.selected:after{inset:13%;border-width:1px}.boardframe-meta{font-size:9px}.center{padding:14px}.ocean-hero{height:160px}.battle-scene{height:180px}.hero-copy{max-width:90%;bottom:8px;padding:7px 10px}.scene-label{font-size:8px}.readout{font-size:10px}.top{margin-bottom:12px}.brand .brand-symbol{width:31px;height:31px}.sizes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.ocean-hero:after,.battle-scene:after,.battle-scene .blast,.battle-scene .smoke,.battle-scene .shell-trace,.battle-scene .impact-ring,.cell.selected{animation:none!important}}
+
+
+/* Placement guides show valid hull length before students click. */
+.cell.preview-ok{outline:2px solid #b8ffbf;outline-offset:-2px;background:linear-gradient(150deg,#5e9d94,#2a6769);box-shadow:inset 0 0 0 2px #87ffd55c,0 0 15px #83ffd338;z-index:3}
+.cell.preview-bad{outline:2px solid #ffba8b;outline-offset:-2px;background:linear-gradient(140deg,#8f4949,#5e2c42);z-index:3}
+.cell.preview-ok .unexplored-dot,.cell.preview-bad .unexplored-dot{width:44%;height:44%;border-radius:8px;border:2px dashed currentColor;background:#ffffff18;box-shadow:none}
+.cell.preview-ok .unexplored-dot{color:#c9ffe5}.cell.preview-bad .unexplored-dot{color:#ffd8bf}
+.cell.ship.hit{background:radial-gradient(circle at center,#f1a966,#9a3441 60%,#4b253c)!important;border-color:#fbe3a5!important}
+.cell.ship.hit .deck-shape{opacity:.37}
 </style>
 </head>
-<body><div class="ocean-art" aria-hidden="true"><div class="number-cloud left">2 4 6 8 12 × 7 9 5 3 11 10 12 4 8 6 2 × 9 7 5</div><div class="number-cloud right">12 × 12 144 8 9 72 11 6 66 5 7 35 10 10 100</div><svg class="side-vessel vessel-left" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M95 25L120 5L146 25L160 72V310L140 367L101 367L80 310V72Z" fill="#b0c8d6" stroke="#f2c444" stroke-width="5"/><path d="M104 73H141V310H104Z" fill="#315673"/><rect x="96" y="140" width="54" height="110" rx="12" fill="#e3b946"/><path d="M110 95H136V128H110Z" fill="#091d33"/><path d="M96 265H149M80 320H159" stroke="white" stroke-width="5"/><path d="M92 30L123 14L153 30" stroke="#fff" stroke-width="5"/></svg><svg class="side-vessel vessel-right" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M105 45Q141 -5 174 45L174 355Q142 414 105 355Z" fill="#4b8da7" stroke="#e4c15b" stroke-width="5"/><path d="M116 98V310M162 98V310" stroke="#e0eef5" stroke-width="4"/><rect x="117" y="161" width="45" height="115" rx="21" fill="#12344f"/><rect x="128" y="134" width="24" height="52" rx="10" fill="#dfba55"/><path d="M141 134V85M141 85H173" stroke="white" stroke-width="6"/><circle cx="140" cy="222" r="9" fill="#d3effa"/></svg></div><div class="shell"><header class="top"><div><div class="sub">SOLO OR TWO PLAYERS · ONE COMPUTER</div><div class="brand">⚓ MULTIPLICATION BATTLESHIP <span class="school">NACHES EDITION</span></div></div><div class="top-actions"><div class="chip" id="phaseChip">PASS & PLAY</div><button type="button" class="btn secondary endgame" id="endGame" hidden>End game</button></div></header><main id="app"></main><footer class="footer">No accounts · No internet required · Nothing is saved when this page closes · Private handoffs in two-player mode</footer></div>
+<body><div class="ocean-art" aria-hidden="true"><div class="number-cloud left">2 4 6 8 12 × 7 9 5 3 11 10 12 4 8 6 2 × 9 7 5</div><div class="number-cloud right">12 × 12 144 8 9 72 11 6 66 5 7 35 10 10 100</div><svg class="side-vessel vessel-left" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M95 25L120 5L146 25L160 72V310L140 367L101 367L80 310V72Z" fill="#b0c8d6" stroke="#f2c444" stroke-width="5"/><path d="M104 73H141V310H104Z" fill="#315673"/><rect x="96" y="140" width="54" height="110" rx="12" fill="#e3b946"/><path d="M110 95H136V128H110Z" fill="#091d33"/><path d="M96 265H149M80 320H159" stroke="white" stroke-width="5"/><path d="M92 30L123 14L153 30" stroke="#fff" stroke-width="5"/></svg><svg class="side-vessel vessel-right" viewBox="0 0 280 430" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M105 45Q141 -5 174 45L174 355Q142 414 105 355Z" fill="#4b8da7" stroke="#e4c15b" stroke-width="5"/><path d="M116 98V310M162 98V310" stroke="#e0eef5" stroke-width="4"/><rect x="117" y="161" width="45" height="115" rx="21" fill="#12344f"/><rect x="128" y="134" width="24" height="52" rx="10" fill="#dfba55"/><path d="M141 134V85M141 85H173" stroke="white" stroke-width="6"/><circle cx="140" cy="222" r="9" fill="#d3effa"/></svg></div><div class="shell"><header class="top"><div><div class="sub">SOLO OR TWO PLAYERS · ONE COMPUTER</div><div class="brand"><span class="brand-symbol">⚓</span> MULTIPLICATION BATTLESHIP <span class="school">FLEET COMMAND V2</span></div></div><div class="top-actions"><button type="button" class="btn secondary audio-button" id="audioToggle" aria-pressed="true" aria-label="Toggle game sound effects">🔊 Effects On</button><div class="chip" id="phaseChip">PASS & PLAY</div><button type="button" class="btn secondary endgame" id="endGame" hidden>End game</button></div></header><main id="app"></main><footer class="footer">No accounts · No internet required · Match progress is not saved when this page closes · Private handoffs in two-player mode</footer></div>
 <script>
 (() => {
   'use strict';
@@ -84,6 +194,57 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
   let players=[], who=0, state='welcome', placement=0, vertical=false, selected=null;
   let message='', wrongAttempts=0, misfires=[0,0], firingShip=0, lastShot=null;
   let timerHandle=null, shotDeadline=null, aiHandle=null, aiSunkCells=new Set();
+
+  // Local sound preference; all sounds are generated on the device, no audio downloads.
+  let effectsOn=true, audioContext=null;
+  try { effectsOn=localStorage.getItem('mb-fleet-v2-effects')!=='off'; } catch (_) {}
+  function updateAudioButton(){
+    const b=document.getElementById('audioToggle');if(!b)return;
+    b.textContent=effectsOn?'🔊 Effects On':'🔇 Effects Off';b.setAttribute('aria-pressed',String(effectsOn));
+  }
+  function audioReady(){
+    if(!effectsOn)return null;
+    try {const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return null;
+      audioContext ||= new Audio();if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});return audioContext;
+    } catch (_){return null;}
+  }
+  function tone(hz,duration=0.12,type='sine',volume=.045,when=0,drop=1){
+    const c=audioReady();if(!c)return;
+    const t=c.currentTime+when,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(hz,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,hz*drop),t+duration);
+    g.gain.setValueAtTime(.00001,t);g.gain.exponentialRampToValueAtTime(Math.max(.00002,volume),t+.012);
+    g.gain.exponentialRampToValueAtTime(.00001,t+duration);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+duration+.02);
+  }
+  function sound(kind){
+    if(!effectsOn)return;
+    if(kind==='target')tone(710,.075,'sine',.022);
+    else if(kind==='place'){tone(345,.065,'triangle',.04);tone(460,.11,'sine',.025,.06);}
+    else if(kind==='fire'){tone(650,.23,'sawtooth',.045,0,.14);tone(230,.18,'triangle',.045,.075,.2);}
+    else if(kind==='hit'){tone(150,.4,'sawtooth',.075,0,.16);tone(84,.35,'triangle',.065,.09,.55);tone(540,.2,'square',.03,.025,.4);}
+    else if(kind==='sunk'){sound('hit');tone(260,.46,'triangle',.05,.25,.36);tone(106,.58,'sawtooth',.035,.41,.47);}
+    else if(kind==='miss'){tone(550,.18,'sine',.045,0,.47);tone(850,.27,'sine',.025,.13,.6);}
+    else if(kind==='error'){tone(220,.23,'square',.04);tone(160,.18,'triangle',.03,.21);}
+    else if(kind==='victory'){[440,554,659,880].forEach((n,i)=>tone(n,.25,'triangle',.05,i*.14));}
+  }
+  const vesselSvg=`<svg viewBox="0 0 620 210" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="hullv2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d0e4ee"/><stop offset=".44" stop-color="#6f92a5"/><stop offset="1" stop-color="#254254"/></linearGradient><linearGradient id="decks" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e0e9ee"/><stop offset="1" stop-color="#395b72"/></linearGradient></defs>
+    <path d="M27 116 Q190 110 602 115 L559 159 Q282 189 94 163 Z" fill="url(#hullv2)" stroke="#d4ecf0" stroke-width="4"/>
+    <path d="M53 116L568 118M115 159L545 151" stroke="#17344d" stroke-width="7"/>
+    <path d="M152 110V73H320L351 111Z" fill="url(#decks)" stroke="#bee3eb" stroke-width="3"/>
+    <path d="M197 73V38H273V73M224 38V8M289 112V61H332V112M332 76H407V111" fill="none" stroke="#d5eaf0" stroke-width="9"/>
+    <rect x="212" y="55" width="14" height="12" rx="2" fill="#11344d"/><rect x="236" y="55" width="14" height="12" rx="2" fill="#11344d"/>
+    <path d="M225 29L225 9L259 14V30" fill="#f0c461" stroke="#d7e5e7" stroke-width="2"/>
+    <path d="M107 116L107 102L168 103M442 115V92L503 94" stroke="#c7dce8" stroke-width="6"/>
+    <ellipse cx="458" cy="97" rx="22" ry="11" fill="#193b54" stroke="#c9e2e7" stroke-width="4"/>
+    <ellipse cx="306" cy="115" rx="38" ry="11" fill="#233d52" stroke="#d2e5ed" stroke-width="3"/>
+    <path d="M38 168C185 190 448 189 599 165" fill="none" stroke="#b1e9ef99" stroke-width="4" stroke-dasharray="25 14"/>
+  </svg>`;
+  function oceanHero(){return `<div class="ocean-hero" aria-hidden="true"><div class="horizon"></div><div class="scene-sun"></div><div class="big-ship">${vesselSvg}</div><div class="hero-copy"><strong>COMMAND THE OCEAN</strong><span>Calculate · Fire · Find the enemy fleet</span></div></div>`;}
+  function battleScene(type,label){
+    const cls=type==='hit'||type==='sunk'||type==='win'?'hit':type==='miss'?'miss':'misfire';
+    return `<div class="battle-scene ${cls} ${type==='win'?'win':''}" role="img" aria-label="${esc(label)}: animated ocean battle scene"><div class="horizon"></div><div class="scene-sun"></div><div class="big-ship">${vesselSvg}</div><div class="shell-trace"></div><div class="impact-ring"></div><div class="blast"></div>${cls==='hit'?'<div class="smoke"></div>':''}<span class="scene-label">FLEET COMMAND · BATTLE REPORT</span><span class="scene-result">${esc(label.toUpperCase())}</span></div>`;
+  }
+
 
   function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function person(name,computer=false){return {name,computer,ships:[],attacks:{},ready:false};}
@@ -114,12 +275,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     }
     throw new Error('Unable to generate a fleet');
   }
-  function randomFleet(p){fillRandomFleet(p);placement=fleet.length;message='Random fleet placed. You can reset and arrange your own ships.';render();}
+  function randomFleet(p){fillRandomFleet(p);placement=fleet.length;message='Random fleet placed. You can reset and arrange your own ships.';sound('place');render();}
   function placeAt(x,y){
     const p=players[who];if(placement>=fleet.length)return;
     const cells=canPlace(p,x,y,fleet[placement].size,vertical);
     if(!cells){message='That ship does not fit or overlaps another ship. Try another square.';render();return;}
-    p.ships.push({...fleet[placement],cells});placement++;message='';render();
+    p.ships.push({...fleet[placement],cells});placement++;message='';sound('place');render();
   }
   function shipSunk(p,s){
     const defender=players.indexOf(p);
@@ -136,26 +297,27 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     state=s;render();
   }
   function board(p,type){
-    let out=`<div class="board" style="--n:${boardSize}" role="grid" aria-label="${type==='place'?'Your ships':type==='attack'?'Opponent attack map':'Your fleet'}"><div></div>`;
+    const label=type==='place'?'Your fleet placement':type==='attack'?'Opponent waters—target grid':'Your own fleet and damage';
+    let out=`<div class="board-frame"><div class="boardframe-meta"><span>${type==='attack'?'TACTICAL SONAR':type==='place'?'FLEET DOCKYARD':'FLEET DAMAGE DISPLAY'}</span><span class="signal">${type==='attack'?'ACTIVE SCAN · ':'CHART · '}${boardSize} × ${boardSize}</span></div><div class="boardwrap"><div class="board" style="--n:${boardSize}" role="grid" aria-label="${label}"><div></div>`;
     for(let x=1;x<=boardSize;x++)out+=`<div class="coord">${x}</div>`;
     for(let y=0;y<boardSize;y++){
       out+=`<div class="coord">${y+1}</div>`;
       for(let x=0;x<boardSize;x++){
         const i=coord(x,y),s=getShip(p,i);
         const shot=type==='attack'?players[who].attacks[i]:type==='fleet'?players[1-who].attacks[i]:null;
-        let css='cell', txt='', action='';
+        let css='cell',txt='<span class="unexplored-dot" aria-hidden="true"></span>',action='';
         if(type!=='attack'&&s){
           const pos=s.cells.indexOf(i),v=s.cells.length>1&&(s.cells[1]-s.cells[0]===boardSize);
           css+=` ship ship-${s.kind} ${v?'ship-v':'ship-h'} ${pos===0?'ship-bow':pos===s.cells.length-1?'ship-stern':'ship-mid'}`;
-          if(!shot)txt=pos===Math.floor(s.cells.length/2)?s.icon:'';
+          txt=`<span class="deck-shape"><i></i></span>`;
         }
-        if(shot){css+=' '+shot;txt=shot==='hit'?'✕':'•';}
+        if(shot){css+=' '+shot;txt='';}
         if(type==='place'&&placement<fleet.length){css+=' interactive';action=`data-place="${x},${y}"`;}
         if(type==='attack'&&!shot){css+=' interactive'+(selected===i?' selected':'');action=`data-select="${x},${y}"`;}
         out+=`<button type="button" class="${css}" ${action} aria-label="Column ${x+1}, row ${y+1}${shot?', '+shot:''}${type!=='attack'&&s?', '+s.name:''}">${txt}</button>`;
       }
     }
-    return out+'</div>';
+    return out+'</div></div></div>';
   }
   function viewIntro(){
     chip.textContent='READY TO PLAY';
@@ -164,7 +326,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
       const snippets={training:'Unlimited math retries',standard:'2 wrong = lost turn',expert:'1 wrong = lost turn',nightmare:'Misfire sinks your ship'};
       return `<button type="button" class="sizebtn ${difficulty===d?'chosen':''}" data-difficulty="${d}">${d[0].toUpperCase()+d.slice(1)}<small>${snippets[d]}</small></button>`;
     }).join('');
-    app.innerHTML=`<section class="panel center"><div class="bigicon flagship">⚓</div><h1>Sink ships. Practice multiplication.</h1><p>Play with a classmate or challenge a computer captain. Select coordinates, solve multiplication problems, and sink the opposing fleet.</p>
+    app.innerHTML=`<section class="panel center">${oceanHero()}<h1>Sink ships. Practice multiplication.</h1><p>Play with a classmate or challenge a computer captain. Plot coordinates, solve multiplication problems, and watch your shots strike—or splash into—the ocean.</p>
       <div class="settings"><div class="settingslabel">CHOOSE YOUR OPPONENT</div><div class="sizes difficulty-options">
         <button class="sizebtn ${gameMode==='human'?'chosen':''}" data-mode="human">Two Players<small>Share one Chromebook</small></button>
         <button class="sizebtn ${gameMode==='computer'?'chosen':''}" data-mode="computer">Vs. Computer<small>Play on your own</small></button></div>
@@ -221,14 +383,27 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
   }
   function viewSetup(){
     const p=players[who];chip.textContent='SHIP PLACEMENT';
-    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">${esc(p.name)}'s secret fleet</h2><div class="boardwrap">${board(p,'place')}</div></section>
+    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><div class="board-title-strip"><div><div class="board-kicker">FLEET DEPLOYMENT</div><h2>${esc(p.name)}'s secret fleet</h2></div><span class="live-flag">PRIVATE SETUP</span></div>${board(p,'place')}</section>
       <aside class="panel side"><div class="sub">PRIVATE SETUP</div><h2>Position your ships</h2><div class="mini">${boardSize} × ${boardSize}</div>
-      <p>Click a starting square to place each ship. Ships cannot overlap or extend outside the board.</p>
+      <p>Hover over a square to preview the next ship, then click to place it. Rotate before placing to fit a narrow channel. Ships cannot overlap or leave the board.</p>
       <div class="ships">${fleet.map((s,i)=>`<div class="shiptag shiptag-${s.kind} ${i<placement?'done':i===placement?'active':''}"><span class="ship-symbol">${s.icon}</span>${esc(s.name)} · ${s.size}</div>`).join('')}</div>
       <div class="status">${placement===fleet.length?'All ships are ready.':'Next: '+fleet[placement].name+' ('+fleet[placement].size+' squares)'}</div>
       <div class="btnrow" style="justify-content:flex-start"><button class="btn secondary" id="rotate">↻ ${vertical?'Vertical':'Horizontal'}</button><button class="btn secondary" id="random">Random ships</button><button class="btn ghost" id="reset">Reset board</button></div>
       ${message?`<p class="muted" role="status">${esc(message)}</p>`:''}<div class="btnrow" style="justify-content:flex-start"><button class="btn" id="confirm" ${placement<fleet.length?'disabled':''}>Lock in my ships →</button></div></aside></div>`;
-    app.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{const [x,y]=b.dataset.place.split(',').map(Number);placeAt(x,y);});
+    // Preview the next vessel in-place; no extra taps or dialog required.
+    const placeButtons=[...app.querySelectorAll('[data-place]')];
+    function clearPreview(){placeButtons.forEach(el=>el.classList.remove('preview-ok','preview-bad'));}
+    placeButtons.forEach(b=>{
+      const [x,y]=b.dataset.place.split(',').map(Number);
+      b.onmouseenter=b.onfocus=()=>{
+        clearPreview();if(placement>=fleet.length)return;
+        const cells=canPlace(p,x,y,fleet[placement].size,vertical),kind=cells?'preview-ok':'preview-bad';
+        const positions=cells||Array.from({length:fleet[placement].size},(_,i)=>[x+(vertical?0:i),y+(vertical?i:0)]).filter(([xx,yy])=>xx<boardSize&&yy<boardSize).map(([xx,yy])=>coord(xx,yy));
+        positions.forEach(i=>placeButtons.find(el=>{const [bx,by]=el.dataset.place.split(',').map(Number);return coord(bx,by)===i;})?.classList.add(kind));
+      };
+      b.onmouseleave=b.onblur=clearPreview;
+      b.onclick=()=>{clearPreview();placeAt(x,y);};
+    });
     document.getElementById('rotate').onclick=()=>{vertical=!vertical;render();};
     document.getElementById('random').onclick=()=>randomFleet(p);
     document.getElementById('reset').onclick=()=>{p.ships=[];placement=0;message='';render();};
@@ -259,12 +434,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     chip.textContent=p.name.toUpperCase()+'’S TURN';
     if(difficulty==='nightmare'&&!afloatIndices(p).includes(firingShip))firingShip=afloatIndices(p)[0];
     const clockHtml=selected!==null&&timed?`<div class="timer-box" id="timerBox"><div class="timer-heading"><strong>⏱ TIMED FIRE</strong><span id="timerText" role="timer" aria-live="off">${clockSeconds()}s remaining</span></div><div class="timer-track"><div id="timerBar" class="timer-bar"></div></div><div class="mini">The target stays locked until you answer. Timeouts cause immediate misfires.</div></div>`:'';
-    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><h2 class="boardtitle">Target grid · ${esc(op.name)}'s waters (${boardSize} × ${boardSize})</h2><div class="boardwrap">${board(p,'attack')}</div>
-      <div class="mini" style="margin-top:12px">Choose an untried square. Across is the first number; down is the second.</div>
-      <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700;color:var(--gold)">Show my own fleet and damage</summary><div class="boardwrap" style="margin-top:12px">${board(p,'fleet')}</div></details></section>
+    app.innerHTML=`<div class="playlayout"><section class="panel boardpanel"><div class="board-title-strip"><div><div class="board-kicker">TACTICAL FIRING GRID</div><h2>${esc(op.name)}'s waters</h2></div><span class="live-flag">TARGETING ACTIVE</span></div>${board(p,'attack')}
+      <div class="mini" style="margin-top:12px">Choose an untried square: column × row = your firing equation. Enemy ships stay hidden until you hit them.</div><div class="readout"><span class="r-target"><em></em> Untried / targeting</span><span class="r-hit"><em></em> Hit / explosion</span><span class="r-water"><em></em> Miss / sonar ripple</span></div>
+      <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700;color:var(--gold)">Show my own fleet and damage</summary><div style="margin-top:12px">${board(p,'fleet')}</div></details></section>
       <aside class="panel side"><div class="sub">CURRENT CAPTAIN</div><h2>${esc(p.name)}</h2>
       <div class="shots"><div class="stat"><strong>${shots.filter(s=>s==='hit').length}</strong><span class="mini">Successful hits</span></div><div class="stat"><strong>${shots.filter(s=>s==='miss').length}</strong><span class="mini">Misses</span></div></div>
-      <div class="stat"><strong>Fleet status</strong><span class="mini">Your ships left afloat: ${afloatIndices(p).length} / ${fleet.length}</span></div>
+      <div class="stat"><strong>Fleet status · ${afloatIndices(p).length} / ${fleet.length} afloat</strong><div class="fleet-dots">${p.ships.map(s=>`<span class="fleet-dot ${shipSunk(p,s)?'is-sunk':'is-alive'}">${s.icon} ${esc(s.name)}</span>`).join('')}</div></div>
       <p>Choose a target, then solve the multiplication equation to fire.</p>
       ${difficulty==='nightmare'?`<div class="stat"><strong>YOUR FIRING SHIP</strong><p class="mini">Wrong answer or timeout sinks your selected ship. Choose your firing ship before targeting.</p>
         <select id="firingShip" class="game-select" aria-label="Choose firing ship" ${selected!==null?'disabled':''}>${p.ships.map((s,i)=>`<option value="${i}" ${shipSunk(p,s)?'disabled':''} ${i===firingShip?'selected':''}>${s.icon} ${esc(s.name)} (${s.size})${shipSunk(p,s)?' — SUNK':''}</option>`).join('')}</select></div>`:''}
@@ -274,13 +449,13 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
       ${message?`<div class="status warn" role="status">${esc(message)}</div>`:''}
       ${wrongAttempts>0?'<div class="mini">Target locked for retry. '+(difficulty==='training'?'Keep practicing.':'One more incorrect answer loses your turn.')+'</div>':''}
       <div class="stat"><strong>Misfires: ${misfires[who]}</strong><span class="mini">${modeRules[difficulty].detail}</span></div>
-      <div class="stat"><strong>Shot markers</strong><span class="mini">✕ = hit &nbsp;&nbsp; • = miss &nbsp;&nbsp; dark square = not yet fired</span></div>
+      <div class="stat"><strong>Reading the sonar board</strong><span class="mini">Orange burst = hit · aqua ripple = miss · gold ring = selected target</span></div>
       </aside></div>`;
     const firingSelect=document.getElementById('firingShip');
     if(firingSelect)firingSelect.onchange=()=>{firingShip=Number(firingSelect.value);};
     app.querySelectorAll('[data-select]').forEach(b=>b.onclick=()=>{
       if(wrongAttempts>0||(timed&&selected!==null))return;
-      const [x,y]=b.dataset.select.split(',').map(Number);selected=coord(x,y);wrongAttempts=0;message='';
+      const [x,y]=b.dataset.select.split(',').map(Number);selected=coord(x,y);wrongAttempts=0;message='';sound('target');
       if(timed){clearClock();shotDeadline=performance.now()+Math.round(timeLimits[difficulty]*timeMultiplier)*1000;}
       render();if(timed){if(timerHandle!==null)clearInterval(timerHandle);timerHandle=setInterval(drawClock,100);drawClock();}
       document.getElementById('answer')?.focus();
@@ -294,13 +469,13 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
       if(answer!==x*y){
         wrongAttempts++;
         if(difficulty==='training'||difficulty==='standard'&&wrongAttempts===1){
-          message=`TARGETING ERROR — ${difficulty==='training'?'Try again!':'One retry!'} ${mathHint(x,y)}`;
+          sound('error');message=`TARGETING ERROR — ${difficulty==='training'?'Try again!':'One retry!'} ${mathHint(x,y)}`;
           render();document.getElementById('answer')?.focus();return;
         }
         applyMisfire('incorrect');return;
       }
       clearClock();
-      fireHit(who,selected);selected=null;wrongAttempts=0;message='';switchState('result');
+      sound('fire');fireHit(who,selected);selected=null;wrongAttempts=0;message='';switchState('result');
     };
     if(shotDeadline!==null&&timed)drawClock();
   }
@@ -336,10 +511,11 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     applyMisfire('timeout');
   }
   function viewMisfire(){
+    sound('error');
     const p=players[who],x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
     const loss=lastShot.opponentWins,nightmare=lastShot.nightmare,timeout=lastShot.reason==='timeout';
     chip.textContent=loss?'GAME OVER':timeout?'TIME EXPIRED':'TARGETING FAILURE';
-    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon explosion">${nightmare?'💥':'⚠️'}</div>
+    app.innerHTML=`<section class="panel center">${battleScene('misfire',nightmare?'FRIENDLY FIRE':'MISFIRE')}
       <div class="sub">${timeout?'TIME EXPIRED · MISFIRE':nightmare?'NIGHTMARE · INCORRECT ANSWER':'INCORRECT ANSWER'}</div>
       <h1 style="color:var(--gold)">${loss?esc(players[1-who].name)+' wins!':nightmare?'FRIENDLY FIRE! '+esc(lastShot.ship)+' SUNK!':'MISFIRE! TURN LOST'}</h1>
       <p>${timeout?'You ran out of time. ':''}That target was ${x} × ${y} = <strong style="color:var(--gold)">${x*y}</strong>.</p>
@@ -352,10 +528,11 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     };
   }
   function viewResult(){
+    sound(lastShot.win?'victory':lastShot.sunk?'sunk':lastShot.hit?'hit':'miss');
     const attacker=lastShot.attacker,p=players[attacker],win=lastShot.win;
     const x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
     chip.textContent=win?'GAME OVER':'SHOT RESULT';
-    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon ${win?'victory':lastShot.hit?'explosion':'splash'}">${win?'🏆':lastShot.hit?'💥':'🌊'}</div>
+    app.innerHTML=`<section class="panel center">${battleScene(win?'win':lastShot.sunk?'sunk':lastShot.hit?'hit':'miss',win?'MISSION WON':lastShot.sunk?'SHIP SUNK':lastShot.hit?'DIRECT HIT':'OPEN WATER')}
       <div class="sub">${esc(p.name)} fired at ${x} × ${y} = ${x*y}</div>
       <div class="burst" aria-hidden="true">${Array.from({length:16},(_,i)=>`<i style="--a:${i*22.5}deg;--d:${65+i%4*14}px"></i>`).join('')}</div>
       <h1>${win?esc(p.name)+' wins!':lastShot.sunk?'Ship sunk!':lastShot.hit?'Direct hit!':'Miss!'}</h1>
@@ -430,7 +607,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
   }
   function viewAiThinking(){
     chip.textContent='COMPUTER TURN';
-    app.innerHTML=`<section class="panel center"><div class="bigicon flagship">🤖</div><div class="sub">${esc(captainNames[aiLevel])}</div>
+    app.innerHTML=`<section class="panel center">${oceanHero()}<div class="bigicon flagship" style="font-size:34px">🤖</div><div class="sub">${esc(captainNames[aiLevel])}</div>
       <h1>Computer is targeting...</h1><p>The computer is studying its previous hits and misses. It cannot see your hidden ships.</p>
       <div class="loader"></div><p class="mini">The computer uses its own targeting strategy and simulates multiplication accuracy.</p></section>`;
     if(aiHandle!==null)clearTimeout(aiHandle);
@@ -449,6 +626,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     fireHit(1,target);selected=null;switchState('aiResult');
   }
   function viewAiResult(){
+    sound(lastShot.misfire?'error':lastShot.win?'victory':lastShot.sunk?'sunk':lastShot.hit?'hit':'miss');
     const ai=players[1],loseHuman=lastShot.misfire&&lastShot.opponentWins;
     const win=lastShot.win&&!lastShot.misfire;
     const x=lastShot.target%boardSize+1,y=Math.floor(lastShot.target/boardSize)+1;
@@ -456,7 +634,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     const mis=!!lastShot.misfire;
     const mainTitle=loseHuman?'You win! The computer sank its final ship.':mis?(lastShot.nightmare?`${esc(ai.name)} sank its own ${esc(lastShot.ship)}!`:'Computer misfire!'):
       win?`${esc(ai.name)} wins!`:lastShot.sunk?`Computer sank your ${esc(lastShot.ship)}!`:lastShot.hit?'Computer hit your ship!':'Computer missed!';
-    app.innerHTML=`<section class="panel center"><div class="bigicon resulticon ${mis||lastShot.hit?'explosion':'splash'}">${win?'🏆':mis?'⚠️':lastShot.hit?'💥':'🌊'}</div>
+    app.innerHTML=`<section class="panel center">${battleScene(mis?'misfire':win?'win':lastShot.sunk?'sunk':lastShot.hit?'hit':'miss',mis?'COMPUTER MISFIRE':win?'COMPUTER WINS':lastShot.sunk?'SHIP LOST':lastShot.hit?'ENEMY HIT':'ENEMY MISS')}
       <div class="sub">${esc(ai.name)} · ${captainNames[aiLevel]} turn</div><h1>${mainTitle}</h1>
       <p>${mis?'The computer made a math mistake, so its attack never reached your fleet.':`It attacked column ${x}, row ${y} (${x} × ${y} = ${x*y}).`}</p>
       <div class="status">${loseHuman?'Your opponent sank its last ship. You win!':win?'All of your ships have been sunk.':mis?lastShot.nightmare?'The computer lost a ship to friendly fire.':'Its shot was canceled.':lastShot.sunk?'One of your ships has been destroyed.':lastShot.hit?'Your fleet took a hit.':'Your fleet is safe this round.'}</div>
@@ -478,6 +656,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rep
     else if(state==='aiThinking')viewAiThinking();
     else if(state==='aiResult')viewAiResult();
   }
-  render();
+  document.getElementById('audioToggle').onclick=()=>{effectsOn=!effectsOn;try{localStorage.setItem('mb-fleet-v2-effects',effectsOn?'on':'off');}catch(_){}updateAudioButton();if(effectsOn){tone(520,.1,'sine',.03);}};
+  updateAudioButton();render();
 })();
 </script></body></html>
